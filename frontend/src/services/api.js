@@ -1,17 +1,10 @@
 // src/services/api.js
 import axios from 'axios';
 
-const getBaseURL = () => {
-  // Jika ada env REACT_APP_API_URL (seperti di Railway), gunakan itu.
-  // Jika tidak ada (seperti di lokal), dia akan fallback ke localhost.
-  if (process.env.REACT_APP_API_URL) {
-    return `${process.env.REACT_APP_API_URL}/api`;
-  }
-  return 'http://localhost:5005/api';
-};
-
 const api = axios.create({
-    baseURL: getBaseURL(),
+    // Cukup gunakan path relatif '/api'. 
+    // Di lokal ataupun di production, dia akan menembak domainnya sendiri.
+    baseURL: '/api', 
     headers: { 'Content-Type': 'application/json' },
     timeout: 10000,
 });
@@ -37,9 +30,6 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response?.status === 401) {
-            // Optional: redirect to login
-        }
         return Promise.reject(error);
     }
 );
