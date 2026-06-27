@@ -1,7 +1,6 @@
 // config/db.js
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 require('dotenv').config();
-
 
 const pool = mysql.createPool({
     host: process.env.MYSQLHOST || 'localhost',
@@ -13,8 +12,8 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
-module.exports = pool;
 
+module.exports = pool;
 // Mengecek koneksi saat server pertama kali jalan
 const promisePool = pool.promise();
 promisePool.query('SELECT 1 + 1 AS result')
