@@ -1,7 +1,6 @@
 // config/db.js
 const mysql = require('mysql2');
 require('dotenv').config();
-const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     // Menyesuaikan otomatis dengan variabel yang disediakan MySQL Railway
