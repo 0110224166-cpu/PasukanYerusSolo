@@ -4,8 +4,7 @@ import axios from 'axios';
 // Menentukan URL backend secara dinamis.
 // Jika di production, dia akan mengambil dari file .env frontend.
 // Jika di lokal (dan .env belum dibaca), dia akan otomatis fallback ke localhost.
-const BACKEND_URL = process.env.REACT_APP_API_URL || import.meta.env?.VITE_API_URL || 'https://backend-pasukanyerussolo-production.up.railway.app';
-
+const BACKEND_URL = (process.env.REACT_APP_API_URL || import.meta.env?.VITE_API_URL || 'https://backend-pasukanyerussolo-production.up.railway.app') + '/api';
 const api = axios.create({
     baseURL: BACKEND_URL, 
     headers: { 'Content-Type': 'application/json' },
