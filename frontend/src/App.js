@@ -16,7 +16,6 @@ import CompanyBrandingForm from './features/dashboard/CompanyBrandingForm';
 import FavoriteListContainer from './features/eksplorasi/FavoriteListContainer';
 import StatusTracker from './features/applications/StatusTracker';
 import ProfileContainer from './features/dashboard/ProfileContainer';
-import AdminStatsView from './features/dashboard/AdminStatsView';
 import AdminDashboard from './features/dashboard/AdminDashboard';
 import WalkthroughPage from './pages/WalkthroughPage';
 import InfoPage from './pages/InfoPage';

@@ -7,30 +7,35 @@ const founders = [
         jabatan: 'CEO & Founder',
         wa: '6281234567890',
         info: 'Berpengalaman dalam pengembangan platform digital dan manajemen tim. Memiliki visi untuk menciptakan ekosistem rekrutmen yang inklusif di Indonesia.',
+        photo: '/images/founders/founder-1.jpg',
     },
     {
         name: 'Aby Sofyan Hanafi',
         jabatan: 'CTO & Co-Founder',
         wa: '6281234567891',
         info: 'Ahli dalam teknologi web dan arsitektur sistem. Bertanggung jawab atas pengembangan dan pemeliharaan infrastruktur teknis platform.',
+        photo: '/images/founders/founder-2.jpg',
     },
     {
         name: 'Iqbal Dwi Kurniawan',
         jabatan: 'COO & Co-Founder',
         wa: '6281234567892',
         info: 'Memiliki pengalaman luas dalam operasional bisnis dan strategi pertumbuhan. Mengawasi kegiatan operasional sehari-hari perusahaan.',
+        photo: '/images/founders/founder-3.jpg',
     },
     {
         name: 'Muhammad Anfasa Umar',
         jabatan: 'CMO & Co-Founder',
         wa: '6281234567893',
         info: 'Pakar dalam strategi pemasaran digital dan branding. Bertanggung jawab mengembangkan brand awareness dan strategi akuisisi pengguna.',
+        photo: '/images/founders/founder-4.jpg',
     },
     {
         name: 'Syahid Thoriq Abdul Aziz',
         jabatan: 'CFO & Co-Founder',
         wa: '6281234567894',
         info: 'Berpengalaman dalam manajemen keuangan dan investasi. Mengelola aspek keuangan perusahaan dan memastikan pertumbuhan bisnis yang berkelanjutan.',
+        photo: '/images/founders/founder-5.jpg',
     },
 ];
 
@@ -242,16 +247,19 @@ const InfoPage = ({ slug }) => {
                                     width: '100px',
                                     height: '100px',
                                     borderRadius: '50%',
-                                    background: `linear-gradient(135deg, #ea580c, #f59e0b)`,
                                     margin: '0 auto 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '40px',
-                                    color: '#fff',
-                                    fontWeight: '700',
+                                    overflow: 'hidden',
+                                    border: '3px solid #ea580c',
                                 }}>
-                                    {founder.name.charAt(0)}
+                                    <img
+                                        src={founder.photo}
+                                        alt={founder.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
                                 </div>
                                 <h3 style={{
                                     color: isDark ? '#fef3c7' : '#1c1917',
