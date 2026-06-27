@@ -1,17 +1,21 @@
 // config/db.js
 const mysql = require('mysql2');
 require('dotenv').config();
+const mysql = require('mysql2/promise');
 
-// Membuat koneksi pool agar efisien untuk banyak pengguna
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT || 3306,
-  waitForConnections: true,
-  connectionLimit: 10
+    // Menyesuaikan otomatis dengan variabel yang disediakan MySQL Railway
+    host: process.env.MYSQLHOST || 'localhost',
+    user: process.env.MYSQLUSER || 'root',
+    password: process.env.MYSQLPASSWORD || 'admin123',
+    database: process.env.MYSQLDATABASE || 'job_portal_db',
+    port: process.env.MYSQLPORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
+
+module.exports = pool;
 
 // Mengecek koneksi saat server pertama kali jalan
 const promisePool = pool.promise();
