@@ -2,11 +2,12 @@
 import axios from 'axios';
 
 const getBaseURL = () => {
-  const hostname = window.location.hostname;
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:5005/api';
+  // Jika ada env REACT_APP_API_URL (seperti di Railway), gunakan itu.
+  // Jika tidak ada (seperti di lokal), dia akan fallback ke localhost.
+  if (process.env.REACT_APP_API_URL) {
+    return `${process.env.REACT_APP_API_URL}/api`;
   }
-  return `http://${hostname}:5005/api`;
+  return 'http://localhost:5005/api';
 };
 
 const api = axios.create({
