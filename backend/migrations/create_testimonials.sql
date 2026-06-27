@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS testimonials (
+    id_testimoni INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    role VARCHAR(100) DEFAULT NULL,
+    perusahaan VARCHAR(100) DEFAULT NULL,
+    teks TEXT NOT NULL,
+    rating INT DEFAULT 5,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+);
