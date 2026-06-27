@@ -3,15 +3,17 @@ const pool = require('../config/db');
 
 exports.index = async (req, res, next) => {
     try {
+        // Test query paling basic tanpa LEFT JOIN dulu
         const [rows] = await pool.query(`
-            SELECT l.id_lowongan as id, l.judul_posisi as title, l.kategori, 
-            l.tipe_pekerjaan as type, l.gaji, l.deskripsi_pekerjaan as deskripsi,
-            l.created_at, pp.nama_perusahaan, pp.logo, pp.lokasi
-            FROM lowongan l
-            LEFT JOIN profil_perusahaan pp ON l.id_perusahaan = pp.id_user
+            SELECT id_lowongan as id, judul_posisi as title, kategori, 
+            tipe_pekerjaan as type, gaji, deskripsi_pekerjaan as deskripsi,
+            created_at FROM lowongan
         `);
-        res.json({ data: rows });
-    } catch (err) { next(err); }
+        return res.json({ data: rows });
+    } catch (err) { 
+        console.error("ERROR DB lowongan:", err);
+        return res.status(500).json({ error: err.message, detail: "Gagal di query basic" }); 
+    }
 };
 
 exports.show = async (req, res, next) => {
