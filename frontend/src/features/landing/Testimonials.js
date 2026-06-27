@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import api from '../../services/api';
+import { StarIcon, ClockIcon, ArrowLeftIcon, ArrowRightIcon, PencilIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 const Testimonials = () => {
     const { theme } = useContext(ThemeContext);
@@ -80,9 +81,9 @@ const Testimonials = () => {
 
     const renderStars = (rating) => {
         return [...Array(5)].map((_, i) => (
-            <span key={i} style={{ color: i < rating ? '#f59e0b' : (isDark ? '#262626' : '#d4d4d4'), fontSize: '18px', marginRight: '4px', cursor: 'pointer' }}
+            <span key={i} style={{ color: i < rating ? '#f59e0b' : (isDark ? '#262626' : '#d4d4d4'), cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
                 onClick={() => setFormData(prev => ({ ...prev, rating: i + 1 }))}>
-                ★
+                <StarIcon style={{ width: '18px', height: '18px' }} />
             </span>
         ));
     };
@@ -114,7 +115,7 @@ const Testimonials = () => {
 
             {loading ? (
                 <div style={{ textAlign: 'center', padding: '40px', color: colors.textMuted }}>
-                    ⏳ Memuat testimonial...
+                    <ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Memuat testimonial...
                 </div>
             ) : testimonials.length > 0 ? (
                 <div style={{ maxWidth: '700px', margin: '0 auto', position: 'relative', padding: '0 15px' }}>
@@ -141,7 +142,7 @@ const Testimonials = () => {
                         onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.accent; e.currentTarget.style.color = colors.accent; }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = isDark ? '#262626' : '#e5e5e5'; e.currentTarget.style.color = colors.textMain; }}
                     >
-                        ←
+                        <ArrowLeftIcon style={{width: '18px', height: '18px'}} />
                     </button>
 
                     <div style={{
@@ -189,7 +190,7 @@ const Testimonials = () => {
 
                                     <div style={{ marginBottom: '16px' }}>
                                         {[...Array(t.rating || 5)].map((_, i) => (
-                                            <span key={i} style={{ color: '#f59e0b', fontSize: '18px', marginRight: '4px' }}>★</span>
+                                            <StarIcon key={i} style={{ width: '18px', height: '18px', color: '#f59e0b', marginRight: '4px' }} />
                                         ))}
                                     </div>
 
@@ -237,7 +238,7 @@ const Testimonials = () => {
                         onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.accent; e.currentTarget.style.color = colors.accent; }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = isDark ? '#262626' : '#e5e5e5'; e.currentTarget.style.color = colors.textMain; }}
                     >
-                        →
+                        <ArrowRightIcon style={{width: '18px', height: '18px'}} />
                     </button>
 
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '30px', flexWrap: 'wrap' }}>
@@ -283,7 +284,7 @@ const Testimonials = () => {
                             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(234,88,12,0.4)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(234,88,12,0.3)'; }}
                         >
-                            ✍️ Tulis Testimonial
+                            <PencilIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '8px'}} /> Tulis Testimonial
                         </button>
                     ) : (
                         <form onSubmit={handleSubmit} style={{
@@ -386,7 +387,7 @@ const Testimonials = () => {
                                         color: '#fff', cursor: 'pointer', fontWeight: '700', fontSize: '14px',
                                         opacity: submitLoading ? 0.7 : 1
                                     }}>
-                                    {submitLoading ? '⏳ Mengirim...' : '🚀 Kirim Testimonial'}
+                                    {submitLoading ? <><ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Mengirim...</> : <><RocketLaunchIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Kirim Testimonial</>}
                                 </button>
                             </div>
                         </form>

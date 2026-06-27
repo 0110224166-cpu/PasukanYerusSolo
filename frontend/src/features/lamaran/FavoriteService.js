@@ -3,6 +3,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
 import Modal from '../../components/Modal/Modal';
+import { ExclamationTriangleIcon, StarIcon, XCircleIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 const FavoriteService = ({ jobId }) => {
     const { theme } = useContext(ThemeContext);
@@ -41,7 +43,7 @@ const FavoriteService = ({ jobId }) => {
         
         const token = localStorage.getItem('token');
         if (!token) {
-            showNotification('⚠️ Perlu Login', 'Silakan login terlebih dahulu untuk menyimpan favorit!', 'warning');
+            showNotification('Perlu Login', 'Silakan login terlebih dahulu untuk menyimpan favorit!', 'warning');
             setTimeout(() => {
                 window.location.href = '/login';
             }, 2000);
@@ -54,15 +56,15 @@ const FavoriteService = ({ jobId }) => {
             if (isFavorited) {
                 await api.delete(`/favorit/${jobId}`);
                 setIsFavorited(false);
-                showNotification('⭐ Dihapus dari Favorit', 'Lowongan berhasil dihapus dari daftar favorit!', 'success');
+                showNotification('Dihapus dari Favorit', 'Lowongan berhasil dihapus dari daftar favorit!', 'success');
             } else {
                 await api.post('/favorit', { id_lowongan: jobId });
                 setIsFavorited(true);
-                showNotification('✨ Tersimpan ke Favorit', 'Lowongan berhasil disimpan ke daftar favorit!', 'success');
+                showNotification('Tersimpan ke Favorit', 'Lowongan berhasil disimpan ke daftar favorit!', 'success');
             }
         } catch (err) {
             const msg = err.response?.data?.message || err.message || 'Gagal memproses favorit';
-            showNotification('❌ Gagal', msg, 'error');
+            showNotification('Gagal', msg, 'error');
         } finally {
             setIsLoading(false);
         }
@@ -93,6 +95,8 @@ const FavoriteService = ({ jobId }) => {
         opacity: isLoading ? 0.7 : 1
     };
 
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
+
     return (
         <>
             <Modal
@@ -118,12 +122,12 @@ const FavoriteService = ({ jobId }) => {
                     }
                 }}
             >
-                {isLoading ? '⏳...' : (
+                {isLoading ? <><ClockIcon style={icn} /> ...</> : (
                     <>
                         {isFavorited ? (
-                            <><span>⭐</span> Hapus dari Favorit</>
+                            <><StarIconSolid style={icn} /> Hapus dari Favorit</>
                         ) : (
-                            <><span>☆</span> Tambah ke Favorit</>
+                            <><StarIcon style={icn} /> Tambah ke Favorit</>
                         )}
                     </>
                 )}

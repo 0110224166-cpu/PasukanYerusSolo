@@ -5,6 +5,8 @@ import api from '../../services/api';
 import Modal from '../../components/Modal/Modal';
 import AdminStatsView from './AdminStatsView';
 import { formatRupiah, formatInputRupiah, parseRupiah } from '../../utils/formatRupiah';
+import { ChartBarIcon, UsersIcon, BriefcaseIcon, ClipboardDocumentListIcon, ChevronUpIcon, ChevronDownIcon, ArrowsUpDownIcon, ClockIcon, Cog6ToothIcon, ArrowPathIcon, PencilIcon, TrashIcon, CheckCircleIcon, XCircleIcon, ChatBubbleLeftRightIcon, StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 const kategoriOptions = [
     'Teknologi / Informasi',
@@ -57,6 +59,8 @@ const AdminDashboard = () => {
     const [testSearch, setTestSearch] = useState('');
     const [testActiveFilter, setTestActiveFilter] = useState('All');
     const [testSort, setTestSort] = useState({ by: 'id_testimoni', dir: 'asc' });
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const showNotification = (title, message, type = 'success') => {
         setModalMessage({ title, message, type });
@@ -210,13 +214,13 @@ const AdminDashboard = () => {
 
     const getStatusBadge = (status) => {
         const statusMap = {
-            'Menunggu': { bg: '#f59e0b', text: '#fff', label: '🕒 Menunggu' },
-            'Review': { bg: '#3b82f6', text: '#fff', label: '📋 Review' },
-            'Interview': { bg: '#8b5cf6', text: '#fff', label: '🗣️ Interview' },
-            'Lolos': { bg: '#22c55e', text: '#fff', label: '✅ Lolos' },
-            'Gagal': { bg: '#ef4444', text: '#fff', label: '❌ Gagal' }
+            'Menunggu': { bg: '#f59e0b', text: '#fff', icon: <ClockIcon style={icn} />, label: 'Menunggu' },
+            'Review': { bg: '#3b82f6', text: '#fff', icon: <ClipboardDocumentListIcon style={icn} />, label: 'Review' },
+            'Interview': { bg: '#8b5cf6', text: '#fff', icon: <ChatBubbleLeftRightIcon style={icn} />, label: 'Interview' },
+            'Lolos': { bg: '#22c55e', text: '#fff', icon: <CheckCircleIcon style={icn} />, label: 'Lolos' },
+            'Gagal': { bg: '#ef4444', text: '#fff', icon: <XCircleIcon style={icn} />, label: 'Gagal' }
         };
-        return statusMap[status] || { bg: '#6b7280', text: '#fff', label: '📋 Pending' };
+        return statusMap[status] || { bg: '#6b7280', text: '#fff', icon: <ClipboardDocumentListIcon style={icn} />, label: 'Pending' };
     };
 
     const colors = {
@@ -228,11 +232,11 @@ const AdminDashboard = () => {
     };
 
     const tabs = [
-        { id: 'stats', label: '📊 Statistik', shortLabel: '📊' },
-        { id: 'users', label: '👥 Pengguna', shortLabel: '👥' },
-        { id: 'jobs', label: '💼 Lowongan', shortLabel: '💼' },
-        { id: 'applications', label: '📋 Lamaran', shortLabel: '📋' },
-        { id: 'testimonials', label: '⭐ Testimonial', shortLabel: '⭐' }
+        { id: 'stats', label: <><ChartBarIcon style={icn} /> Statistik</>, shortLabel: <ChartBarIcon style={{width: '1em', height: '1em'}} /> },
+        { id: 'users', label: <><UsersIcon style={icn} /> Pengguna</>, shortLabel: <UsersIcon style={{width: '1em', height: '1em'}} /> },
+        { id: 'jobs', label: <><BriefcaseIcon style={icn} /> Lowongan</>, shortLabel: <BriefcaseIcon style={{width: '1em', height: '1em'}} /> },
+        { id: 'applications', label: <><ClipboardDocumentListIcon style={icn} /> Lamaran</>, shortLabel: <ClipboardDocumentListIcon style={{width: '1em', height: '1em'}} /> },
+        { id: 'testimonials', label: <><StarIcon style={icn} /> Testimonial</>, shortLabel: <StarIcon style={{width: '1em', height: '1em'}} /> }
     ];
 
     const styles = {
@@ -358,7 +362,7 @@ const AdminDashboard = () => {
         <span onClick={() => onSort(sortBy)} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px', userSelect: 'none' }}>
             {label}
             <span style={{ fontSize: '10px', color: currentSort.by === sortBy ? colors.accent : colors.textMuted }}>
-                {currentSort.by === sortBy ? (currentSort.dir === 'asc' ? '▲' : '▼') : '⇅'}
+                {currentSort.by === sortBy ? (currentSort.dir === 'asc' ? <ChevronUpIcon style={{width: '1em', height: '1em'}} /> : <ChevronDownIcon style={{width: '1em', height: '1em'}} />) : <ArrowsUpDownIcon style={{width: '1em', height: '1em'}} />}
             </span>
         </span>
     );
@@ -387,7 +391,7 @@ const AdminDashboard = () => {
         return (
             <div style={styles.loadingBox}>
                 <div style={{ width: '40px', height: '40px', border: `3px solid ${colors.border}`, borderTop: `3px solid ${colors.accent}`, borderRadius: '50%', margin: '0 auto 16px auto', animation: 'spin 1s linear infinite' }} />
-                <p>⏳ Memuat dashboard admin...</p>
+                <p><ClockIcon style={icn} /> Memuat dashboard admin...</p>
                 <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
             </div>
         );
@@ -462,8 +466,8 @@ const AdminDashboard = () => {
                             <label style={{ color: colors.textMuted, fontSize: '13px', fontWeight: '600' }}>Rating:</label>
                             {[1,2,3,4,5].map(r => (
                                 <span key={r} onClick={() => setEditingTestimonial({ ...editingTestimonial, rating: r })}
-                                    style={{ fontSize: '22px', cursor: 'pointer', color: r <= (editingTestimonial.rating || 5) ? '#f59e0b' : (isDark ? '#262626' : '#d4d4d4') }}>
-                                    ★
+                                    style={{ cursor: 'pointer', display: 'inline-flex' }}>
+                                    <StarIcon style={{ width: '22px', height: '22px', color: r <= (editingTestimonial.rating || 5) ? '#f59e0b' : (isDark ? '#262626' : '#d4d4d4') }} />
                                 </span>
                             ))}
                         </div>
@@ -473,9 +477,10 @@ const AdminDashboard = () => {
                                 style={{
                                     padding: '6px 16px', borderRadius: '20px', border: 'none',
                                     background: editingTestimonial.is_active ? '#10b981' : '#ef4444',
-                                    color: '#fff', fontWeight: '600', fontSize: '12px', cursor: 'pointer'
+                                    color: '#fff', fontWeight: '600', fontSize: '12px', cursor: 'pointer',
+                                    display: 'inline-flex', alignItems: 'center', gap: '4px'
                                 }}>
-                                {editingTestimonial.is_active ? '✅ Aktif' : '❌ Nonaktif'}
+                                {editingTestimonial.is_active ? <><CheckCircleIcon style={{width: '1em', height: '1em'}} /> Aktif</> : <><XCircleIcon style={{width: '1em', height: '1em'}} /> Nonaktif</>}
                             </button>
                         </div>
                         <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
@@ -487,7 +492,7 @@ const AdminDashboard = () => {
             )}
 
             <div style={styles.container}>
-                <h1 style={styles.title}>⚙️ Panel Administrator</h1>
+                <h1 style={styles.title}><Cog6ToothIcon style={icn} /> Panel Administrator</h1>
                 <p style={styles.subtitle}>Kelola seluruh data pengguna, lowongan, dan lamaran dari satu dashboard</p>
 
                 <div style={styles.tabContainer}>
@@ -498,8 +503,8 @@ const AdminDashboard = () => {
                         </button>
                     ))}
                     <button onClick={() => fetchData()} style={{ ...styles.tabButton(false), background: isDark ? '#1c1917' : '#f5f5f4', marginLeft: 'auto' }}>
-                        <span className="tab-label-full">🔄 Refresh</span>
-                        <span className="tab-label-short">🔄</span>
+                        <span className="tab-label-full"><ArrowPathIcon style={icn} /> Refresh</span>
+                        <span className="tab-label-short"><ArrowPathIcon style={{width: '1em', height: '1em'}} /></span>
                     </button>
                 </div>
 
@@ -518,7 +523,7 @@ const AdminDashboard = () => {
                                 <option value="Admin">Admin</option>
                             </select>
                             <button onClick={() => setUserSort({ ...userSort, dir: userSort.dir === 'asc' ? 'desc' : 'asc' })} style={styles.sortBtn(true)}>
-                                {userSort.dir === 'asc' ? '↑' : '↓'} {userSort.by === 'nama' ? 'Nama' : userSort.by === 'id_user' ? 'ID' : 'Tanggal'}
+                                {userSort.dir === 'asc' ? <ChevronUpIcon style={{width: '1em', height: '1em'}} /> : <ChevronDownIcon style={{width: '1em', height: '1em'}} />} {userSort.by === 'nama' ? 'Nama' : userSort.by === 'id_user' ? 'ID' : 'Tanggal'}
                             </button>
                         </div>
                         <div style={styles.table} className="admin-table-wrapper">
@@ -550,8 +555,8 @@ const AdminDashboard = () => {
                                             <td style={styles.td}>{user.telepon || '-'}</td>
                                             <td style={styles.td}>{formatDate(user.created_at)}</td>
                                             <td style={styles.td}>
-                                                <button onClick={() => { setEditingUser(user); setShowEditUserModal(true); }} style={styles.editBtn} title="Edit">✏️</button>
-                                                <button onClick={() => handleDeleteUser(user.id_user, user.nama)} style={styles.deleteBtn} title="Hapus">🗑️</button>
+                                                <button onClick={() => { setEditingUser(user); setShowEditUserModal(true); }} style={styles.editBtn} title="Edit"><PencilIcon style={{width: '1em', height: '1em'}} /></button>
+                                                <button onClick={() => handleDeleteUser(user.id_user, user.nama)} style={styles.deleteBtn} title="Hapus"><TrashIcon style={{width: '1em', height: '1em'}} /></button>
                                             </td>
                                         </tr>
                                     ))}
@@ -573,8 +578,8 @@ const AdminDashboard = () => {
                                     <MobileRow label="Telepon" value={user.telepon || '-'} />
                                     <MobileRow label="Bergabung" value={formatDate(user.created_at)} />
                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '10px', paddingTop: '8px', borderTop: `1px solid ${isDark ? '#1c1917' : '#f0f0f0'}` }}>
-                                        <button onClick={() => { setEditingUser(user); setShowEditUserModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}>✏️ Edit</button>
-                                        <button onClick={() => handleDeleteUser(user.id_user, user.nama)} style={{ ...styles.deleteBtn, fontSize: '13px' }}>🗑️ Hapus</button>
+                                        <button onClick={() => { setEditingUser(user); setShowEditUserModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}><PencilIcon style={icn} /> Edit</button>
+                                        <button onClick={() => handleDeleteUser(user.id_user, user.nama)} style={{ ...styles.deleteBtn, fontSize: '13px' }}><TrashIcon style={icn} /> Hapus</button>
                                     </div>
                                 </MobileCard>
                             ))}
@@ -593,7 +598,7 @@ const AdminDashboard = () => {
                                 {kategoriOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                             </select>
                             <button onClick={() => setJobSort({ ...jobSort, dir: jobSort.dir === 'asc' ? 'desc' : 'asc' })} style={styles.sortBtn(true)}>
-                                {jobSort.dir === 'asc' ? '↑' : '↓'} {jobSort.by === 'judul_posisi' ? 'Posisi' : jobSort.by === 'gaji' ? 'Gaji' : 'Tanggal'}
+                                {jobSort.dir === 'asc' ? <ChevronUpIcon style={{width: '1em', height: '1em'}} /> : <ChevronDownIcon style={{width: '1em', height: '1em'}} />} {jobSort.by === 'judul_posisi' ? 'Posisi' : jobSort.by === 'gaji' ? 'Gaji' : 'Tanggal'}
                             </button>
                         </div>
                         <div style={styles.table} className="admin-table-wrapper">
@@ -619,8 +624,8 @@ const AdminDashboard = () => {
                                             <td style={styles.td}>{formatRupiah(job.gaji)}</td>
                                             <td style={styles.td}>{formatDate(job.created_at)}</td>
                                             <td style={styles.td}>
-                                                <button onClick={() => { setEditingJob(job); setShowEditJobModal(true); }} style={styles.editBtn} title="Edit">✏️</button>
-                                                <button onClick={() => handleDeleteJob(job.id_lowongan, job.judul_posisi)} style={styles.deleteBtn} title="Hapus">🗑️</button>
+                                                <button onClick={() => { setEditingJob(job); setShowEditJobModal(true); }} style={styles.editBtn} title="Edit"><PencilIcon style={{width: '1em', height: '1em'}} /></button>
+                                                <button onClick={() => handleDeleteJob(job.id_lowongan, job.judul_posisi)} style={styles.deleteBtn} title="Hapus"><TrashIcon style={{width: '1em', height: '1em'}} /></button>
                                             </td>
                                         </tr>
                                     ))}
@@ -636,8 +641,8 @@ const AdminDashboard = () => {
                                     <MobileRow label="Gaji" value={formatRupiah(job.gaji)} />
                                     <MobileRow label="Dibuat" value={formatDate(job.created_at)} />
                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '10px', paddingTop: '8px', borderTop: `1px solid ${isDark ? '#1c1917' : '#f0f0f0'}` }}>
-                                        <button onClick={() => { setEditingJob(job); setShowEditJobModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}>✏️ Edit</button>
-                                        <button onClick={() => handleDeleteJob(job.id_lowongan, job.judul_posisi)} style={{ ...styles.deleteBtn, fontSize: '13px' }}>🗑️ Hapus</button>
+                                        <button onClick={() => { setEditingJob(job); setShowEditJobModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}><PencilIcon style={icn} /> Edit</button>
+                                        <button onClick={() => handleDeleteJob(job.id_lowongan, job.judul_posisi)} style={{ ...styles.deleteBtn, fontSize: '13px' }}><TrashIcon style={icn} /> Hapus</button>
                                     </div>
                                 </MobileCard>
                             ))}
@@ -653,14 +658,14 @@ const AdminDashboard = () => {
                             <input type="text" placeholder="Cari pelamar/posisi..." value={appSearch} onChange={e => setAppSearch(e.target.value)} style={styles.filterInput} />
                             <select value={appStatusFilter} onChange={e => setAppStatusFilter(e.target.value)} style={styles.filterSelect}>
                                 <option value="All">Semua Status</option>
-                                <option value="Menunggu">🕒 Menunggu</option>
-                                <option value="Review">📋 Review</option>
-                                <option value="Interview">🗣️ Interview</option>
-                                <option value="Lolos">✅ Lolos</option>
-                                <option value="Gagal">❌ Gagal</option>
+                                <option value="Menunggu">Menunggu</option>
+                                <option value="Review">Review</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Lolos">Lolos</option>
+                                <option value="Gagal">Gagal</option>
                             </select>
                             <button onClick={() => setAppSort({ ...appSort, dir: appSort.dir === 'asc' ? 'desc' : 'asc' })} style={styles.sortBtn(true)}>
-                                {appSort.dir === 'asc' ? '↑' : '↓'} {appSort.by === 'status' ? 'Status' : 'Tanggal'}
+                                {appSort.dir === 'asc' ? <ChevronUpIcon style={{width: '1em', height: '1em'}} /> : <ChevronDownIcon style={{width: '1em', height: '1em'}} />} {appSort.by === 'status' ? 'Status' : 'Tanggal'}
                             </button>
                         </div>
                         <div style={styles.table} className="admin-table-wrapper">
@@ -686,8 +691,8 @@ const AdminDashboard = () => {
                                                 <td style={styles.td}>{app.judul_posisi}</td>
                                                 <td style={styles.td}>{app.nama_perusahaan || '-'}</td>
                                                 <td style={styles.td}>
-                                                    <span style={{ background: badge.bg, color: badge.text, padding: '4px 8px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold' }}>
-                                                        {badge.label}
+                                                    <span style={{ background: badge.bg, color: badge.text, padding: '4px 8px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                                        {badge.icon} {badge.label}
                                                     </span>
                                                 </td>
                                                 <td style={styles.td}>{new Date(app.tanggal_melamar).toLocaleDateString('id-ID')}</td>
@@ -697,11 +702,11 @@ const AdminDashboard = () => {
                                                             .then(() => { showNotification('Berhasil', 'Status diperbarui', 'success'); fetchData(); })
                                                             .catch(() => showNotification('Gagal', 'Gagal update status', 'error'));
                                                     }} style={styles.roleSelect} defaultValue={app.status}>
-                                                        <option value="Menunggu">🕒 Menunggu</option>
-                                                        <option value="Review">📋 Review</option>
-                                                        <option value="Interview">🗣️ Interview</option>
-                                                        <option value="Lolos">✅ Lolos</option>
-                                                        <option value="Gagal">❌ Gagal</option>
+                                                        <option value="Menunggu">Menunggu</option>
+                                                        <option value="Review">Review</option>
+                                                        <option value="Interview">Interview</option>
+                                                        <option value="Lolos">Lolos</option>
+                                                        <option value="Gagal">Gagal</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -717,8 +722,8 @@ const AdminDashboard = () => {
                                     <MobileCard key={app.id_lamaran}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                                             <span style={{ fontWeight: '700', fontSize: '15px', color: colors.textMain }}>{app.nama_pelamar}</span>
-                                            <span style={{ background: badge.bg, color: badge.text, padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-                                                {badge.label}
+                                            <span style={{ background: badge.bg, color: badge.text, padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                                {badge.icon} {badge.label}
                                             </span>
                                         </div>
                                         <MobileRow label="Posisi" value={app.judul_posisi} />
@@ -731,11 +736,11 @@ const AdminDashboard = () => {
                                                     .then(() => { showNotification('Berhasil', 'Status diperbarui', 'success'); fetchData(); })
                                                     .catch(() => showNotification('Gagal', 'Gagal update status', 'error'));
                                             }} style={{ ...styles.roleSelect, flex: 1 }} defaultValue={app.status}>
-                                                <option value="Menunggu">🕒 Menunggu</option>
-                                                <option value="Review">📋 Review</option>
-                                                <option value="Interview">🗣️ Interview</option>
-                                                <option value="Lolos">✅ Lolos</option>
-                                                <option value="Gagal">❌ Gagal</option>
+                                                <option value="Menunggu">Menunggu</option>
+                                                <option value="Review">Review</option>
+                                                <option value="Interview">Interview</option>
+                                                <option value="Lolos">Lolos</option>
+                                                <option value="Gagal">Gagal</option>
                                             </select>
                                         </div>
                                     </MobileCard>
@@ -753,11 +758,11 @@ const AdminDashboard = () => {
                             <input type="text" placeholder="Cari nama..." value={testSearch} onChange={e => setTestSearch(e.target.value)} style={styles.filterInput} />
                             <select value={testActiveFilter} onChange={e => setTestActiveFilter(e.target.value)} style={styles.filterSelect}>
                                 <option value="All">Semua Status</option>
-                                <option value="Active">✅ Aktif</option>
-                                <option value="Inactive">❌ Nonaktif</option>
+                                <option value="Active">Aktif</option>
+                                <option value="Inactive">Nonaktif</option>
                             </select>
                             <button onClick={() => setTestSort({ ...testSort, dir: testSort.dir === 'asc' ? 'desc' : 'asc' })} style={styles.sortBtn(true)}>
-                                {testSort.dir === 'asc' ? '↑' : '↓'} {testSort.by === 'rating' ? 'Rating' : 'Tanggal'}
+                                {testSort.dir === 'asc' ? <ChevronUpIcon style={{width: '1em', height: '1em'}} /> : <ChevronDownIcon style={{width: '1em', height: '1em'}} />} {testSort.by === 'rating' ? 'Rating' : 'Tanggal'}
                             </button>
                         </div>
                         <div style={styles.table} className="admin-table-wrapper">
@@ -782,20 +787,24 @@ const AdminDashboard = () => {
                                             <td style={styles.td}>{t.role || '-'}</td>
                                             <td style={styles.td}>{t.perusahaan || '-'}</td>
                                             <td style={styles.td}>
-                                                <span style={{ color: '#f59e0b' }}>{'★'.repeat(t.rating || 5)}{'☆'.repeat(5 - (t.rating || 5))}</span>
+                                                <span style={{ color: '#f59e0b', display: 'inline-flex', gap: '2px', verticalAlign: 'middle' }}>
+                                                    {Array.from({ length: t.rating || 5 }).map((_, i) => <StarIcon key={`s${i}`} style={{ width: '1em', height: '1em' }} />)}
+                                                    {Array.from({ length: 5 - (t.rating || 5) }).map((_, i) => <StarIconOutline key={`o${i}`} style={{ width: '1em', height: '1em' }} />)}
+                                                </span>
                                             </td>
                                             <td style={styles.td}>
                                                 <span style={{
                                                     padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold',
-                                                    background: t.is_active ? '#10b981' : '#6b7280', color: '#fff'
+                                                    background: t.is_active ? '#10b981' : '#6b7280', color: '#fff',
+                                                    display: 'inline-flex', alignItems: 'center', gap: '4px'
                                                 }}>
-                                                    {t.is_active ? '✅ Aktif' : '❌ Nonaktif'}
+                                                    {t.is_active ? <><CheckCircleIcon style={{width: '1em', height: '1em'}} /> Aktif</> : <><XCircleIcon style={{width: '1em', height: '1em'}} /> Nonaktif</>}
                                                 </span>
                                             </td>
                                             <td style={styles.td}>{formatDate(t.created_at)}</td>
                                             <td style={styles.td}>
-                                                <button onClick={() => { setEditingTestimonial(t); setShowEditTestimonialModal(true); }} style={styles.editBtn} title="Edit">✏️</button>
-                                                <button onClick={() => handleDeleteTestimonial(t.id_testimoni, t.nama)} style={styles.deleteBtn} title="Hapus">🗑️</button>
+                                                <button onClick={() => { setEditingTestimonial(t); setShowEditTestimonialModal(true); }} style={styles.editBtn} title="Edit"><PencilIcon style={{width: '1em', height: '1em'}} /></button>
+                                                <button onClick={() => handleDeleteTestimonial(t.id_testimoni, t.nama)} style={styles.deleteBtn} title="Hapus"><TrashIcon style={{width: '1em', height: '1em'}} /></button>
                                             </td>
                                         </tr>
                                     ))}
@@ -809,18 +818,22 @@ const AdminDashboard = () => {
                                         <span style={{ fontWeight: '700', fontSize: '15px', color: colors.textMain }}>{t.nama}</span>
                                         <span style={{
                                             padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: 'bold',
-                                            background: t.is_active ? '#10b981' : '#6b7280', color: '#fff'
+                                            background: t.is_active ? '#10b981' : '#6b7280', color: '#fff',
+                                            display: 'inline-flex', alignItems: 'center', gap: '4px'
                                         }}>
-                                            {t.is_active ? '✅ Aktif' : '❌ Nonaktif'}
+                                            {t.is_active ? <><CheckCircleIcon style={{width: '1em', height: '1em'}} /> Aktif</> : <><XCircleIcon style={{width: '1em', height: '1em'}} /> Nonaktif</>}
                                         </span>
                                     </div>
                                     <MobileRow label="Posisi" value={t.role || '-'} />
                                     <MobileRow label="Perusahaan" value={t.perusahaan || '-'} />
-                                    <MobileRow label="Rating" value={<span style={{ color: '#f59e0b' }}>{'★'.repeat(t.rating || 5)}{'☆'.repeat(5 - (t.rating || 5))}</span>} />
+                                    <MobileRow label="Rating" value={<span style={{ color: '#f59e0b', display: 'inline-flex', gap: '2px', verticalAlign: 'middle' }}>
+                                        {Array.from({ length: t.rating || 5 }).map((_, i) => <StarIcon key={`s${i}`} style={{ width: '1em', height: '1em' }} />)}
+                                        {Array.from({ length: 5 - (t.rating || 5) }).map((_, i) => <StarIconOutline key={`o${i}`} style={{ width: '1em', height: '1em' }} />)}
+                                    </span>} />
                                     <MobileRow label="Tanggal" value={formatDate(t.created_at)} />
                                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '10px', paddingTop: '8px', borderTop: `1px solid ${isDark ? '#1c1917' : '#f0f0f0'}` }}>
-                                        <button onClick={() => { setEditingTestimonial(t); setShowEditTestimonialModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}>✏️ Edit</button>
-                                        <button onClick={() => handleDeleteTestimonial(t.id_testimoni, t.nama)} style={{ ...styles.deleteBtn, fontSize: '13px' }}>🗑️ Hapus</button>
+                                        <button onClick={() => { setEditingTestimonial(t); setShowEditTestimonialModal(true); }} style={{ ...styles.editBtn, fontSize: '13px' }}><PencilIcon style={icn} /> Edit</button>
+                                        <button onClick={() => handleDeleteTestimonial(t.id_testimoni, t.nama)} style={{ ...styles.deleteBtn, fontSize: '13px' }}><TrashIcon style={icn} /> Hapus</button>
                                     </div>
                                 </MobileCard>
                             ))}

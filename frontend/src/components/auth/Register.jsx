@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import api from '../../services/api';
 import Modal from '../Modal/Modal';
+import { SparklesIcon, XCircleIcon, PencilSquareIcon, UserIcon, EnvelopeIcon, LockClosedIcon, EyeIcon, BuildingOfficeIcon, LightBulbIcon, ClockIcon } from '@heroicons/react/24/outline';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -53,13 +54,13 @@ const Register = () => {
 
         try {
             await api.post('/auth/register', payload);
-            showNotification('✨ Pendaftaran Berhasil', 'Akun Anda berhasil dibuat! Silakan masuk.', 'success');
+            showNotification('Pendaftaran Berhasil', 'Akun Anda berhasil dibuat! Silakan masuk.', 'success');
             setTimeout(() => {
                 navigate('/login');
             }, 2000);
         } catch (err) {
             const errorMsg = err.response?.data?.message || 'Terjadi kesalahan saat pendaftaran.';
-            showNotification('❌ Pendaftaran Gagal', errorMsg, 'error');
+            showNotification('Pendaftaran Gagal', errorMsg, 'error');
         } finally {
             setLoading(false);
         }
@@ -266,11 +267,11 @@ const Register = () => {
                     </div>
 
                     <h2 style={styles.title}>
-                        <span style={{ color: '#ea580c' }}>📝</span> Buat Akun Baru
+                        <PencilSquareIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle', color: '#ea580c', marginRight: '4px'}} /> Buat Akun Baru
                     </h2>
 
                     <form onSubmit={handleRegister}>
-                        <label style={styles.label}>👤 Nama Lengkap</label>
+                        <label style={styles.label}><UserIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Nama Lengkap</label>
                         <div style={styles.inputWrapper}>
                             <input 
                                 type="text" 
@@ -285,7 +286,7 @@ const Register = () => {
                             />
                         </div>
 
-                        <label style={styles.label}>📧 Alamat Email</label>
+                        <label style={styles.label}><EnvelopeIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Alamat Email</label>
                         <div style={styles.inputWrapper}>
                             <input 
                                 type="email" 
@@ -300,7 +301,7 @@ const Register = () => {
                             />
                         </div>
 
-                        <label style={styles.label}>🔒 Kata Sandi</label>
+                        <label style={styles.label}><LockClosedIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Kata Sandi</label>
                         <div style={styles.inputWrapper}>
                             <input 
                                 type={showPassword ? "text" : "password"} 
@@ -318,7 +319,7 @@ const Register = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 style={styles.passwordToggle}
                             >
-                                {showPassword ? '👁️' : '🔒'}
+                                {showPassword ? <EyeIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} /> : <LockClosedIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} />}
                             </button>
                         </div>
                         
@@ -331,7 +332,7 @@ const Register = () => {
                             </div>
                         )}
 
-                        <label style={styles.label}>🏢 Daftar Sebagai (Tipe Akun)</label>
+                        <label style={styles.label}><BuildingOfficeIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Daftar Sebagai (Tipe Akun)</label>
                         <select 
                             name="role" 
                             value={formData.role} 
@@ -341,16 +342,16 @@ const Register = () => {
                             onBlur={handleInputBlur}
                         >
                             <option value="Pelamar" style={{ background: isDark ? '#2e1505' : '#ffffff' }}>
-                                👨‍💼 Pelamar Kerja (Mencari Pekerjaan)
+                                <UserIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Pelamar Kerja (Mencari Pekerjaan)
                             </option>
                             <option value="Perusahaan" style={{ background: isDark ? '#2e1505' : '#ffffff' }}>
-                                🏢 Perusahaan / HRD Partner
+                                <BuildingOfficeIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Perusahaan / HRD Partner
                             </option>
                         </select>
                         <span style={styles.roleHint}>
                             {formData.role === 'Pelamar' 
-                                ? '💡 Anda akan dapat mencari dan melamar pekerjaan' 
-                                : '💡 Anda akan dapat memposting lowongan pekerjaan'}
+                                ? <><LightBulbIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Anda akan dapat mencari dan melamar pekerjaan</> 
+                                : <><LightBulbIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Anda akan dapat memposting lowongan pekerjaan</>}
                         </span>
 
                         <button 
@@ -366,7 +367,7 @@ const Register = () => {
                                 e.currentTarget.style.boxShadow = 'none';
                             }}
                         >
-                            {loading ? '⏳ Mendaftarkan Akun...' : '✨ Daftar Sekarang'}
+                            {loading ? <><ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Mendaftarkan Akun...</> : <><SparklesIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Daftar Sekarang</>}
                         </button>
                     </form>
 

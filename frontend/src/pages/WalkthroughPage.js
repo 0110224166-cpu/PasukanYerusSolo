@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
+import { PencilSquareIcon, MagnifyingGlassIcon, DocumentIcon, RocketLaunchIcon, ArrowRightIcon, ForwardIcon } from '@heroicons/react/24/outline';
+
+const stepIcons = [PencilSquareIcon, MagnifyingGlassIcon, DocumentIcon];
 
 const steps = [
     {
-        icon: '📝',
         title: 'Daftar Akun Gratis',
         desc: 'Isi data diri dan buat profil profesionalmu dalam 2 menit',
         color: '#ea580c'
     },
     {
-        icon: '🔍',
         title: 'Temukan Lowongan Ideal',
         desc: 'Filter berdasarkan skill, lokasi, dan gaji yang kamu inginkan',
         color: '#f59e0b'
     },
     {
-        icon: '📄',
         title: 'Kirim Lamaran Cepat',
         desc: 'Lamar pekerjaan impian dengan sekali klik, pantau status secara real-time',
         color: '#10b981'
@@ -91,7 +91,7 @@ const WalkthroughPage = () => {
                         e.currentTarget.style.color = textMuted;
                     }}
                 >
-                    Skip ⏭
+                    <ForwardIcon style={{ width: '14px', height: '14px', marginRight: '6px', verticalAlign: 'middle' }} /> Skip
                 </button>
             </div>
 
@@ -125,13 +125,12 @@ const WalkthroughPage = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '52px',
                     marginBottom: '40px',
                     boxShadow: `0 20px 60px ${slide.color}33`,
                     transform: 'scale(1)',
                     transition: 'all 0.5s ease',
                 }}>
-                    {slide.icon}
+                    {React.createElement(stepIcons[currentSlide], { style: { width: '52px', height: '52px', color: '#fff' } })}
                 </div>
 
                 {/* Title */}
@@ -219,7 +218,11 @@ const WalkthroughPage = () => {
                         e.currentTarget.style.boxShadow = `0 8px 30px ${slide.color}40`;
                     }}
                 >
-                    {isLastSlide ? 'Mulai Jelajahi 🚀' : 'Lanjut →'}
+                    {isLastSlide ? (
+                        <span><RocketLaunchIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '6px' }} /> Mulai Jelajahi</span>
+                    ) : (
+                        <span>Lanjut <ArrowRightIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px' }} /></span>
+                    )}
                 </button>
 
 

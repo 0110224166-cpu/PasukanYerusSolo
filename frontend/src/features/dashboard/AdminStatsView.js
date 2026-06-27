@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
+import { UserIcon, BuildingOfficeIcon, BriefcaseIcon, InboxArrowDownIcon, ClockIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 
 const AdminStatsView = () => {
     const { theme } = useContext(ThemeContext);
@@ -38,17 +39,17 @@ const AdminStatsView = () => {
     };
 
     const statCards = [
-        { icon: '👤', title: 'Total Pengguna', value: stats?.total_users || 0, color: '#3b82f6' },
-        { icon: '🏢', title: 'Total Perusahaan', value: stats?.total_companies || 0, color: '#8b5cf6' },
-        { icon: '👨‍💼', title: 'Total Pelamar', value: stats?.total_job_seekers || 0, color: '#06b6d4' },
-        { icon: '💼', title: 'Total Lowongan', value: stats?.total_jobs || 0, color: '#10b981' },
-        { icon: '📩', title: 'Total Lamaran', value: stats?.total_applications || 0, color: '#f59e0b' }
+        { icon: <UserIcon style={{width: '22px', height: '22px'}} />, title: 'Total Pengguna', value: stats?.total_users || 0, color: '#3b82f6' },
+        { icon: <BuildingOfficeIcon style={{width: '22px', height: '22px'}} />, title: 'Total Perusahaan', value: stats?.total_companies || 0, color: '#8b5cf6' },
+        { icon: <UserIcon style={{width: '22px', height: '22px'}} />, title: 'Total Pelamar', value: stats?.total_job_seekers || 0, color: '#06b6d4' },
+        { icon: <BriefcaseIcon style={{width: '22px', height: '22px'}} />, title: 'Total Lowongan', value: stats?.total_jobs || 0, color: '#10b981' },
+        { icon: <InboxArrowDownIcon style={{width: '22px', height: '22px'}} />, title: 'Total Lamaran', value: stats?.total_applications || 0, color: '#f59e0b' }
     ];
 
     if (loading) {
         return (
             <div style={{ textAlign: 'center', padding: '60px', color: colors.textMuted }}>
-                ⏳ Memuat statistik dashboard...
+                <ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Memuat statistik dashboard...
             </div>
         );
     }
@@ -57,7 +58,7 @@ const AdminStatsView = () => {
         <div className="stats-wrapper" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div className="stats-header" style={{ marginBottom: '20px' }}>
                 <h1 className="stats-title" style={{ color: colors.textMain, fontSize: '28px', fontWeight: '800', marginBottom: '6px' }}>
-                    ⚙️ Dashboard Admin
+                    <Cog6ToothIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Dashboard Admin
                 </h1>
                 <p className="stats-subtitle" style={{ color: colors.textMuted, fontSize: '13px' }}>
                     Ringkasan statistik platform PasukanYerusSolo
@@ -100,7 +101,8 @@ const AdminStatsView = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontSize: '22px',
-                            marginBottom: '14px'
+                            marginBottom: '14px',
+                            color: '#fff'
                         }}>
                             {card.icon}
                         </div>

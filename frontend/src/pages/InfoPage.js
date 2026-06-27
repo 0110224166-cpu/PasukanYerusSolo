@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
+import { BuildingOfficeIcon, LockClosedIcon, DocumentTextIcon, RocketLaunchIcon, QuestionMarkCircleIcon, UserGroupIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
 const founders = [
     {
@@ -42,7 +43,7 @@ const founders = [
 const pages = {
     'tentang-kami': {
         title: 'Tentang Kami',
-        icon: '🏢',
+        icon: <BuildingOfficeIcon style={{width: '1em', height: '1em'}} />,
         type: 'tentang-kami',
         sections: [
             {
@@ -53,7 +54,7 @@ const pages = {
     },
     'kebijakan-privasi': {
         title: 'Kebijakan Privasi',
-        icon: '🔒',
+        icon: <LockClosedIcon style={{width: '1em', height: '1em'}} />,
         sections: [
             {
                 heading: 'Informasi yang Kami Kumpulkan',
@@ -75,7 +76,7 @@ const pages = {
     },
     'syarat-ketentuan': {
         title: 'Syarat & Ketentuan',
-        icon: '📜',
+        icon: <DocumentTextIcon style={{width: '1em', height: '1em'}} />,
         sections: [
             {
                 heading: 'Ketentuan Umum',
@@ -97,7 +98,7 @@ const pages = {
     },
     'karier': {
         title: 'Karier',
-        icon: '🚀',
+        icon: <RocketLaunchIcon style={{width: '1em', height: '1em'}} />,
         sections: [
             {
                 heading: 'Bergabung dengan Tim Kami',
@@ -119,7 +120,7 @@ const pages = {
     },
     'faq': {
         title: 'FAQ',
-        icon: '❓',
+        icon: <QuestionMarkCircleIcon style={{width: '1em', height: '1em'}} />,
         sections: [
             {
                 heading: 'Bagaimana cara mendaftar akun?',
@@ -227,7 +228,7 @@ const InfoPage = ({ slug }) => {
                         textAlign: 'center',
                         marginBottom: '32px',
                     }}>
-                        🤝 Tim Pendiri
+                        <UserGroupIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Tim Pendiri
                     </h2>
                     <div style={{
                         display: 'grid',
@@ -313,7 +314,7 @@ const InfoPage = ({ slug }) => {
                                         e.currentTarget.style.boxShadow = 'none';
                                     }}
                                 >
-                                    📞 WhatsApp
+                                    <PhoneIcon style={{width: '1em', height: '1em', verticalAlign: 'middle'}} /> WhatsApp
                                 </a>
                             </div>
                         ))}

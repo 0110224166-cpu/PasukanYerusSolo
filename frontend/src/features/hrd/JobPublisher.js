@@ -4,6 +4,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import FormLowonganControlled from './FormLowonganControlled';
 import ApplicationStatusTracker from './ApplicationStatusTracker';
 import { formatInputRupiah, parseRupiah, formatRupiah } from '../../utils/formatRupiah';
+import { PencilIcon, XMarkIcon, ClockIcon, ArrowDownTrayIcon, MapPinIcon, TrashIcon, InboxIcon, ClipboardDocumentListIcon, BoltIcon, CalendarIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
 const kategoriOptions = [
     'Teknologi / Informasi',
@@ -34,6 +35,8 @@ const EditJobModal = ({ job, onClose, onSave, isDark }) => {
     const [kategoriLain, setKategoriLain] = useState(isKategoriBaku ? '' : kategoriAwal);
     const [isKategoriLain, setIsKategoriLain] = useState(!isKategoriBaku && !!kategoriAwal);
     const [saving, setSaving] = useState(false);
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const inputStyle = {
         width: '100%',
@@ -84,12 +87,12 @@ const EditJobModal = ({ job, onClose, onSave, isDark }) => {
             }} onClick={(e) => e.stopPropagation()}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                     <h3 style={{ margin: 0, color: isDark ? '#fef3c7' : '#1c1917', fontSize: '20px', fontWeight: '800' }}>
-                        ✏️ Edit Lowongan
+                        <PencilIcon style={icn} /> Edit Lowongan
                     </h3>
                     <button onClick={onClose} style={{
                         background: 'none', border: 'none', fontSize: '24px',
                         cursor: 'pointer', color: isDark ? '#a8a29e' : '#57534e',
-                    }}>✕</button>
+                    }}><XMarkIcon style={{ width: '1em', height: '1em' }} /></button>
                 </div>
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
@@ -122,10 +125,10 @@ const EditJobModal = ({ job, onClose, onSave, isDark }) => {
                     <div>
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#ea580c', marginBottom: '6px', textTransform: 'uppercase' }}>Tipe Pekerjaan</label>
                         <select value={form.tipe_pekerjaan} onChange={(e) => setForm({ ...form, tipe_pekerjaan: e.target.value })} style={inputStyle}>
-                            <option value="Full-time">⏰ Full-time</option>
-                            <option value="Part-time">🕒 Part-time</option>
-                            <option value="Remote">🏠 Remote</option>
-                            <option value="Contract">📄 Contract</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Contract">Contract</option>
                         </select>
                     </div>
                     <div>
@@ -148,7 +151,7 @@ const EditJobModal = ({ job, onClose, onSave, isDark }) => {
                         opacity: saving ? 0.7 : 1,
                         marginTop: '8px',
                     }}>
-                        {saving ? '⏳ Menyimpan...' : '💾 Simpan Perubahan'}
+                        {saving ? <><ClockIcon style={icn} /> Menyimpan...</> : <><ArrowDownTrayIcon style={icn} /> Simpan Perubahan</>}
                     </button>
                 </form>
             </div>
@@ -163,6 +166,8 @@ const JobPublisher = ({ isMobile }) => {
     const [myJobs, setMyJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editJob, setEditJob] = useState(null);
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const colors = {
         cardBg: isDark ? '#120b06' : '#ffffff',
@@ -196,7 +201,7 @@ const JobPublisher = ({ isMobile }) => {
                 fetchData();
             }
         } catch (err) {
-            alert('❌ Gagal: ' + (err.response?.data?.message || err.message));
+            alert('Gagal: ' + (err.response?.data?.message || err.message));
         }
     };
 
@@ -206,7 +211,7 @@ const JobPublisher = ({ isMobile }) => {
             await api.delete(`/auth/hrd/jobs/${jobId}`);
             fetchData();
         } catch (err) {
-            alert('❌ Gagal menghapus: ' + (err.response?.data?.message || err.message));
+            alert('Gagal menghapus: ' + (err.response?.data?.message || err.message));
         }
     };
 
@@ -221,7 +226,7 @@ const JobPublisher = ({ isMobile }) => {
                     margin: '0 auto 16px auto',
                     animation: 'spin 1s linear infinite'
                 }} />
-                <p>⏳ Memuat dashboard...</p>
+                <p><ClockIcon style={icn} /> Memuat dashboard...</p>
                 <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
             </div>
         );
@@ -264,7 +269,7 @@ const JobPublisher = ({ isMobile }) => {
                     boxSizing: 'border-box',
                 }}>
                     <h3 style={{ fontSize: '18px', fontWeight: '800', color: colors.textMain, margin: '0 0 4px 0' }}>
-                        📌 Daftar Lowongan Saya
+                        <MapPinIcon style={icn} /> Daftar Lowongan Saya
                     </h3>
                     <p style={{ color: colors.textMuted, fontSize: '13px', margin: '0 0 20px 0', lineHeight: '1.4' }}>
                         Kelola lowongan yang telah Anda publikasikan.
@@ -291,7 +296,7 @@ const JobPublisher = ({ isMobile }) => {
                                             </p>
                                             {job.lokasi && (
                                                 <p style={{ fontSize: '11px', color: colors.textMuted, margin: '0' }}>
-                                                    📍 {job.lokasi}
+                                                    <MapPinIcon style={icn} /> {job.lokasi}
                                                 </p>
                                             )}
                                         </div>
@@ -308,6 +313,9 @@ const JobPublisher = ({ isMobile }) => {
                                                     fontWeight: '700',
                                                     cursor: 'pointer',
                                                     transition: 'all 0.3s ease',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '4px'
                                                 }}
                                                 onMouseEnter={(e) => {
                                                     e.currentTarget.style.background = '#ea580c';
@@ -318,7 +326,7 @@ const JobPublisher = ({ isMobile }) => {
                                                     e.currentTarget.style.color = '#ea580c';
                                                 }}
                                             >
-                                                ✏️ Edit
+                                                <PencilIcon style={{width: '1em', height: '1em'}} /> Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(job.id_lowongan)}
@@ -332,6 +340,9 @@ const JobPublisher = ({ isMobile }) => {
                                                     fontWeight: '700',
                                                     cursor: 'pointer',
                                                     transition: 'all 0.3s ease',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '4px'
                                                 }}
                                                 onMouseEnter={(e) => {
                                                     e.currentTarget.style.background = '#ef4444';
@@ -342,7 +353,7 @@ const JobPublisher = ({ isMobile }) => {
                                                     e.currentTarget.style.color = '#ef4444';
                                                 }}
                                             >
-                                                🗑 Hapus
+                                                <TrashIcon style={{width: '1em', height: '1em'}} /> Hapus
                                             </button>
                                         </div>
                                     </div>
@@ -351,7 +362,7 @@ const JobPublisher = ({ isMobile }) => {
                         </div>
                     ) : (
                         <div style={{ textAlign: 'center', padding: '40px', color: colors.textMuted }}>
-                            <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📭</span>
+                            <InboxIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px auto' }} />
                             <p>Belum ada lowongan dipublikasikan</p>
                         </div>
                     )}
@@ -368,7 +379,7 @@ const JobPublisher = ({ isMobile }) => {
                     boxSizing: 'border-box',
                 }}>
                     <h3 style={{ fontSize: '18px', fontWeight: '800', color: colors.textMain, margin: '0 0 4px 0' }}>
-                        📋 Pemantauan Berkas Masuk
+                        <ClipboardDocumentListIcon style={icn} /> Pemantauan Berkas Masuk
                     </h3>
                     <p style={{ color: colors.textMuted, fontSize: '13px', margin: '0 0 20px 0', lineHeight: '1.4' }}>
                         Kelola kelayakan berkas, jadwalkan interview, atau perbarui status akhir rekrutmen.
@@ -388,10 +399,10 @@ const JobPublisher = ({ isMobile }) => {
                                         {applicant.nama_pelamar || 'Pelamar'}
                                     </h4>
                                     <p style={{ fontSize: '12px', color: '#ea580c', fontWeight: '700', margin: '0 0 8px 0' }}>
-                                        🎯 {applicant.judul_posisi} • 📅 {new Date(applicant.tanggal_melamar).toLocaleDateString('id-ID')}
+                                        <BoltIcon style={icn} /> {applicant.judul_posisi} • <CalendarIcon style={icn} /> {new Date(applicant.tanggal_melamar).toLocaleDateString('id-ID')}
                                     </p>
                                     <p style={{ fontSize: '11px', color: colors.textMuted, margin: '0 0 8px 0' }}>
-                                        📧 {applicant.email_pelamar} • 📞 {applicant.telepon || '-'}
+                                        <EnvelopeIcon style={icn} /> {applicant.email_pelamar} • <PhoneIcon style={icn} /> {applicant.telepon || '-'}
                                     </p>
                                     <ApplicationStatusTracker
                                         applicationId={applicant.id_lamaran}
@@ -402,7 +413,7 @@ const JobPublisher = ({ isMobile }) => {
                         </div>
                     ) : (
                         <div style={{ textAlign: 'center', padding: '40px', color: colors.textMuted }}>
-                            <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📭</span>
+                            <InboxIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px auto' }} />
                             <p>Belum ada lamaran masuk</p>
                         </div>
                     )}

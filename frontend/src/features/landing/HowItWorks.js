@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '../../components/ScrollReveal';
 import { ThemeContext } from '../../context/ThemeContext';
+import { PencilSquareIcon, MagnifyingGlassIcon, DocumentIcon, BoltIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const HowItWorks = () => {
   const { theme } = useContext(ThemeContext);
@@ -18,10 +19,10 @@ const HowItWorks = () => {
   };
 
   const steps = [
-    { emoji: '📝', title: 'Buat Akun Gratis', tag: 'Langkah 1', desc: 'Isi data diri dan buat profil profesionalmu dalam 2 menit' },
-    { emoji: '🔍', title: 'Cari Lowongan Ideal', tag: 'Langkah 2', desc: 'Filter berdasarkan skill, lokasi, dan gaji yang kamu inginkan' },
-    { emoji: '📄', title: 'Lamar Sekali Klik', tag: 'Langkah 3', desc: 'Kirim lamaran cepat dan pantau status secara real-time' },
-    { emoji: '🎯', title: 'Dapatkan Pekerjaan', tag: 'Langkah 4', desc: 'Terima tawaran dan mulai karir impianmu!' }
+    { icon: PencilSquareIcon, title: 'Buat Akun Gratis', tag: 'Langkah 1', desc: 'Isi data diri dan buat profil profesionalmu dalam 2 menit' },
+    { icon: MagnifyingGlassIcon, title: 'Cari Lowongan Ideal', tag: 'Langkah 2', desc: 'Filter berdasarkan skill, lokasi, dan gaji yang kamu inginkan' },
+    { icon: DocumentIcon, title: 'Lamar Sekali Klik', tag: 'Langkah 3', desc: 'Kirim lamaran cepat dan pantau status secara real-time' },
+    { icon: BoltIcon, title: 'Dapatkan Pekerjaan', tag: 'Langkah 4', desc: 'Terima tawaran dan mulai karir impianmu!' }
   ];
 
   return (
@@ -100,13 +101,16 @@ const HowItWorks = () => {
               e.currentTarget.style.boxShadow = 'none';
             }}
           >
-            <span style={{
-              fontSize: 'clamp(32px, 5vw, 42px)',
-              display: 'block',
-              marginBottom: '16px'
-            }}>
-              {step.emoji}
-            </span>
+            {(() => {
+              const StepIcon = step.icon;
+              return <StepIcon style={{
+                width: '42px',
+                height: '42px',
+                display: 'block',
+                margin: '0 auto 16px',
+                color: c.accent
+              }} />;
+            })()}
             <span style={{
               fontSize: '11px',
               fontWeight: '700',
@@ -165,7 +169,7 @@ const HowItWorks = () => {
             e.currentTarget.style.boxShadow = '0 4px 20px rgba(234, 88, 12, 0.3)';
           }}
         >
-          Mulai Sekarang →
+          Mulai Sekarang <ArrowRightIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px'}} />
         </button>
       </div>
     </section>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
 import Modal from '../../components/Modal/Modal';
+import { XCircleIcon, CheckCircleIcon, DocumentIcon, FolderIcon, ClockIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
     const { theme } = useContext(ThemeContext);
@@ -12,6 +13,8 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
     const [fileName, setFileName] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState({ title: '', message: '', type: 'success' });
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const showNotification = (title, message, type = 'success') => {
         setModalMessage({ title, message, type });
@@ -29,7 +32,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         }
         
         if (file.type !== 'application/pdf') {
-            showNotification('❌ Format File Salah', 'Hanya file PDF yang diperbolehkan!', 'error');
+            showNotification('Format File Salah', 'Hanya file PDF yang diperbolehkan!', 'error');
             e.target.value = '';
             setFileCv(null);
             setFileName('');
@@ -37,7 +40,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         }
         
         if (file.size > 2 * 1024 * 1024) {
-            showNotification('❌ Ukuran File Terlalu Besar', 'Ukuran file maksimal 2MB!', 'error');
+            showNotification('Ukuran File Terlalu Besar', 'Ukuran file maksimal 2MB!', 'error');
             e.target.value = '';
             setFileCv(null);
             setFileName('');
@@ -52,7 +55,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         e.preventDefault();
         
         if (!fileCv) {
-            showNotification('❌ CV Belum Dipilih', 'Silahkan pilih file CV anda terlebih dahulu!', 'error');
+            showNotification('CV Belum Dipilih', 'Silahkan pilih file CV anda terlebih dahulu!', 'error');
             return;
         }
 
@@ -67,7 +70,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             
-            showNotification('✅ Lamaran Terkirim', response.data.message || 'Lamaran berhasil dikirim!', 'success');
+            showNotification('Lamaran Terkirim', response.data.message || 'Lamaran berhasil dikirim!', 'success');
             
             setFileCv(null);
             setFileName('');
@@ -86,7 +89,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
                 errorMsg = err.message;
             }
             
-            showNotification('❌ Lamaran Gagal', errorMsg, 'error');
+            showNotification('Lamaran Gagal', errorMsg, 'error');
             
             if (onError) onError(errorMsg);
         } finally {
@@ -188,10 +191,10 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
 
             <form onSubmit={handleApply} style={styles.form}>
                 <h4 style={styles.title}>
-                    <span>📄</span> Kirim Lamaran (Upload CV)
+                    <DocumentIcon style={icn} /> Kirim Lamaran (Upload CV)
                 </h4>
                 
-                <label style={styles.label}>📁 BERKAS CV (FORMAT .PDF, MAX 2MB)</label>
+                <label style={styles.label}><FolderIcon style={icn} /> BERKAS CV (FORMAT .PDF, MAX 2MB)</label>
                 <input 
                     type="file" 
                     accept=".pdf" 
@@ -202,7 +205,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
                 
                 {fileName && (
                     <div style={styles.fileName}>
-                        <span>✅</span> File siap: {fileName}
+                        <CheckCircleIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> File siap: {fileName}
                     </div>
                 )}
                 
@@ -238,11 +241,11 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
                 >
                     {isSubmitting ? (
                         <>
-                            <span>⏳</span> Mengirim...
+                            <ClockIcon style={icn} /> Mengirim...
                         </>
                     ) : (
                         <>
-                            <span>🚀</span> Kirim Lamaran
+                            <RocketLaunchIcon style={icn} /> Kirim Lamaran
                         </>
                     )}
                 </button>

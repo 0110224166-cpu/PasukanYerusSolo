@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { StarIcon as StarOutlineIcon } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 const FavoriteHandler = ({ jobId, onAddToFavoriteServer, appTheme }) => {
     const [isFavorited, setIsFavorited] = useState(false);
@@ -56,7 +58,7 @@ const FavoriteHandler = ({ jobId, onAddToFavoriteServer, appTheme }) => {
                 }
             }}
         >
-            <span style={{ fontSize: '14px' }}>{isFavorited ? '★' : '☆'}</span>
+            {isFavorited ? <StarIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} /> : <StarOutlineIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} />}
             {isFavorited ? 'Tersimpan di Favorit' : 'Tambah ke Favorit'}
         </button>
     );

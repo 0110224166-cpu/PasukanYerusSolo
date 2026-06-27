@@ -19,6 +19,7 @@ import ProfileContainer from './features/dashboard/ProfileContainer';
 import AdminDashboard from './features/dashboard/AdminDashboard';
 import WalkthroughPage from './pages/WalkthroughPage';
 import InfoPage from './pages/InfoPage';
+import { BoltIcon, RocketLaunchIcon, SparklesIcon, ChartBarIcon, MagnifyingGlassIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const JobDetailWrapper = () => {
     const { id } = useParams();
@@ -123,14 +124,14 @@ const HomePage = () => {
                     <div style={styles.headerWrapper}>
                         <div>
                             <span style={styles.badge}>
-                                🔥 HOT OPPORTUNITIES
+                                <BoltIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> HOT OPPORTUNITIES
                             </span>
                             <h2 style={styles.title}>
-                                🚀 Lowongan <span style={{ color: '#ea580c' }}>Terkini</span> & 
+                                <RocketLaunchIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> Lowongan <span style={{ color: '#ea580c' }}>Terkini</span> & 
                                 <br /><span style={{ color: '#ea580c' }}>Paling Banyak</span> Dilirik
                             </h2>
                             <p style={styles.subtitle}>
-                                🌟 <strong style={{ color: '#ea580c' }}>6.000+</strong> lowongan tersedia • 
+                                <SparklesIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> <strong style={{ color: '#ea580c' }}>6.000+</strong> lowongan tersedia • 
                                 <strong style={{ color: '#ea580c' }}> 500+</strong> perusahaan terpercaya • 
                                 Bergabung sekarang!
                             </p>
@@ -154,7 +155,7 @@ const HomePage = () => {
                                 transform: isButtonHovered ? 'translateX(5px)' : 'translateX(0)',
                                 transition: 'transform 0.3s ease',
                                 display: 'inline-block'
-                            }}>→</span>
+                            }}><ArrowRightIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} /></span>
                         </button>
                     </div>
                     <JobListContainer variant="simple" limit={6} />
@@ -174,7 +175,7 @@ const HomePage = () => {
                         justifyContent: 'center'
                     }}>
                         <p style={styles.footerText}>
-                            📊 <strong style={{ color: '#ea580c' }}>6 Lowongan Terbaru</strong> ditampilkan dari 
+                            <ChartBarIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> <strong style={{ color: '#ea580c' }}>6 Lowongan Terbaru</strong> ditampilkan dari 
                             <strong style={{ color: '#ea580c' }}> 100+ Lowongan</strong> lainnya
                         </p>
                         <div style={{
@@ -192,7 +193,7 @@ const HomePage = () => {
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}
                         >
-                            Lihat Semua Lowongan →
+                            Lihat Semua Lowongan <ArrowRightIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px' }} />
                         </span>
                     </div>
                 </div>
@@ -272,7 +273,7 @@ const App = () => {
                             padding: '6px 16px',
                             borderRadius: '30px'
                         }}>
-                            🔍 EKSPLORASI
+                            <MagnifyingGlassIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> EKSPLORASI
                         </span>
                         <h1 style={{ 
                             fontSize: 'clamp(32px, 6vw, 48px)', 
@@ -298,8 +299,8 @@ const App = () => {
                             margin: '0 auto',
                             lineHeight: '1.6'
                         }}>
-                            🎯 Temukan <strong style={{ color: '#ea580c' }}>ribuan peluang karir</strong> dari perusahaan-perusahaan 
-                            terbaik di seluruh Indonesia • 🚀 Mulai perjalanan kariermu sekarang!
+                            <BoltIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> Temukan <strong style={{ color: '#ea580c' }}>ribuan peluang karir</strong> dari perusahaan-perusahaan 
+                            terbaik di seluruh Indonesia • <RocketLaunchIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> Mulai perjalanan kariermu sekarang!
                         </p>
                     </div>
                 </div>

@@ -1,18 +1,21 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import { MagnifyingGlassIcon, PencilSquareIcon, TagIcon, ChartBarIcon, BoltIcon } from '@heroicons/react/24/outline';
 
 const sortOptions = [
-    { value: 'terbaru', label: '🆕 Terbaru' },
-    { value: 'terlama', label: '📅 Terlama' },
-    { value: 'gaji-tertinggi', label: '💰 Gaji Tertinggi' },
-    { value: 'gaji-terendah', label: '💵 Gaji Terendah' },
-    { value: 'az', label: '🔤 A-Z' },
-    { value: 'za', label: '🔡 Z-A' },
+    { value: 'terbaru', label: 'Terbaru' },
+    { value: 'terlama', label: 'Terlama' },
+    { value: 'gaji-tertinggi', label: 'Gaji Tertinggi' },
+    { value: 'gaji-terendah', label: 'Gaji Terendah' },
+    { value: 'az', label: 'A-Z' },
+    { value: 'za', label: 'Z-A' },
 ];
 
 const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selectedSort, onSortChange }) => {
     const { theme } = useContext(ThemeContext);
     const isDark = theme === 'dark';
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const inputStyle = {
         width: '100%', 
@@ -78,7 +81,7 @@ const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selec
                 alignItems: 'center',
                 gap: '8px'
             }}>
-                🔍 Filter Pencarian
+                <MagnifyingGlassIcon style={icn} /> Filter Pencarian
             </h4>
             
             <div style={{ 
@@ -88,7 +91,7 @@ const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selec
                 width: '100%' 
             }}>
                 <div style={{ flex: 2 }}>
-                    <label style={labelStyle}>📝 Kata Kunci</label>
+                    <label style={labelStyle}><PencilSquareIcon style={icn} /> Kata Kunci</label>
                     <input 
                         type="text" 
                         placeholder="Cari posisi atau nama perusahaan..." 
@@ -99,7 +102,7 @@ const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selec
                     />
                 </div>
                 <div style={{ flex: 1 }}>
-                    <label style={labelStyle}>🏷️ Tipe Pekerjaan</label>
+                    <label style={labelStyle}><TagIcon style={icn} /> Tipe Pekerjaan</label>
                     <select 
                         value={selectedType} 
                         style={inputStyle}
@@ -107,14 +110,14 @@ const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selec
                         onBlur={handleInputBlur}
                         onChange={(e) => onTypeChange(e.target.value)}
                     >
-                        <option value="Semua">📋 Semua Tipe</option>
-                        <option value="Full-time">⏰ Full-time</option>
-                        <option value="Remote">🏠 Remote</option>
-                        <option value="Contract">📄 Contract</option>
+                        <option value="Semua">Semua Tipe</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Remote">Remote</option>
+                        <option value="Contract">Contract</option>
                     </select>
                 </div>
                 <div style={{ flex: 1 }}>
-                    <label style={labelStyle}>📊 Urutkan</label>
+                    <label style={labelStyle}><ChartBarIcon style={icn} /> Urutkan</label>
                     <select 
                         value={selectedSort} 
                         style={inputStyle}
@@ -140,7 +143,7 @@ const FilterBox = ({ isMobile, onSearchChange, onTypeChange, selectedType, selec
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                <span>⚡ Gunakan filter untuk mempersempit pencarian</span>
+                <span><BoltIcon style={icn} /> Gunakan filter untuk mempersempit pencarian</span>
                 {(selectedType !== 'Semua' || selectedSort !== 'terbaru') && (
                     <span style={{ color: '#ea580c', fontSize: '11px' }}>
                         Filter aktif

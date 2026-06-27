@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
+import { BuildingOfficeIcon, FolderIcon, ClockIcon, ArrowDownTrayIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 const bidangOptions = [
     'Teknologi / Informasi',
@@ -38,6 +39,8 @@ const CompanyBrandingForm = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState({ text: '', type: '' });
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const colors = {
         cardBg: isDark ? '#120b06' : '#ffffff',
@@ -191,7 +194,7 @@ const CompanyBrandingForm = () => {
                     fontWeight: '800',
                     marginBottom: '6px'
                 }}>
-                    🏢 Branding Perusahaan
+                    <BuildingOfficeIcon style={icn} /> Branding Perusahaan
                 </h1>
                 <p style={{
                     color: colors.textMuted,
@@ -217,7 +220,7 @@ const CompanyBrandingForm = () => {
                             ? 'rgba(34,197,94,0.2)'
                             : 'rgba(239,68,68,0.2)'}`
                     }}>
-                        {message.type === 'success' ? '✅ ' : '⚠️ '} {message.text}
+                        {message.type === 'success' ? <CheckCircleIcon style={icn} /> : <ExclamationTriangleIcon style={icn} />} {message.text}
                     </div>
                 )}
 
@@ -250,7 +253,7 @@ const CompanyBrandingForm = () => {
                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                 ) : (
-                                    <span style={{ fontSize: '36px' }}>🏢</span>
+                                    <BuildingOfficeIcon style={{ width: '36px', height: '36px' }} />
                                 )}
                             </div>
                             <label style={{
@@ -264,7 +267,7 @@ const CompanyBrandingForm = () => {
                                 fontSize: '13px',
                                 transition: 'all 0.3s ease',
                             }}>
-                                📁 Pilih Logo
+                                <FolderIcon style={icn} /> Pilih Logo
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -395,7 +398,7 @@ const CompanyBrandingForm = () => {
                             e.currentTarget.style.boxShadow = 'none';
                         }}
                     >
-                        {isSaving ? '⏳ Menyimpan...' : '💾 Simpan Profil Perusahaan'}
+                        {isSaving ? <><ClockIcon style={icn} /> Menyimpan...</> : <><ArrowDownTrayIcon style={icn} /> Simpan Profil Perusahaan</>}
                     </button>
                 </form>
             </div>

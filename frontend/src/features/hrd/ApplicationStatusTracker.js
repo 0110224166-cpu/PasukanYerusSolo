@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
+import { CheckCircleIcon, XCircleIcon, ChatBubbleLeftRightIcon, ClipboardDocumentListIcon, ClockIcon } from '@heroicons/react/24/outline';
 
 const ApplicationStatusTracker = ({ applicationId, currentStatus, appTheme }) => {
     const { theme } = useContext(ThemeContext);
@@ -14,22 +15,24 @@ const ApplicationStatusTracker = ({ applicationId, currentStatus, appTheme }) =>
         try {
             const response = await api.patch(`/auth/hrd/lamaran/${applicationId}`, { status: newStatus });
             setStatus(newStatus);
-            alert('✅ ' + (response.data.message || 'Status pelamar berhasil diperbarui'));
+            alert(response.data.message || 'Status pelamar berhasil diperbarui');
         } catch (err) {
             console.error('Error updating status:', err);
-            alert('❌ Gagal memperbarui status pelamar: ' + (err.response?.data?.message || err.message));
+            alert('Gagal memperbarui status pelamar: ' + (err.response?.data?.message || err.message));
         } finally {
             setIsUpdating(false);
         }
     };
 
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
+
     const getStatusColors = (currentViewStatus) => {
         switch(currentViewStatus) {
-            case 'Lolos': return { bg: '#dcfce7', text: '#15803d', icon: '✅' };
-            case 'Interview': return { bg: '#fef9c3', text: '#a16207', icon: '🗣️' };
-            case 'Gagal': return { bg: '#fee2e2', text: '#b91c1c', icon: '❌' };
-            case 'Review': return { bg: '#fef3c7', text: '#b45309', icon: '📋' };
-            default: return { bg: isDark ? '#2e1d11' : '#f3e8ff', text: '#ea580c', icon: '🕒' };
+            case 'Lolos': return { bg: '#dcfce7', text: '#15803d', icon: <CheckCircleIcon style={icn} /> };
+            case 'Interview': return { bg: '#fef9c3', text: '#a16207', icon: <ChatBubbleLeftRightIcon style={icn} /> };
+            case 'Gagal': return { bg: '#fee2e2', text: '#b91c1c', icon: <XCircleIcon style={icn} /> };
+            case 'Review': return { bg: '#fef3c7', text: '#b45309', icon: <ClipboardDocumentListIcon style={icn} /> };
+            default: return { bg: isDark ? '#2e1d11' : '#f3e8ff', text: '#ea580c', icon: <ClockIcon style={icn} /> };
         }
     };
 
@@ -95,11 +98,11 @@ const ApplicationStatusTracker = ({ applicationId, currentStatus, appTheme }) =>
                     }}
                     disabled={isUpdating}
                 >
-                    <option value="Menunggu">🕒 Menunggu</option>
-                    <option value="Review">📋 Review</option>
-                    <option value="Interview">🗣️ Interview</option>
-                    <option value="Lolos">✅ Lolos</option>
-                    <option value="Gagal">❌ Gagal</option>
+                    <option value="Menunggu">Menunggu</option>
+                    <option value="Review">Review</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Lolos">Lolos</option>
+                    <option value="Gagal">Gagal</option>
                 </select>
                 {isUpdating && <span style={{ fontSize: '12px', color: colors.accent }}>Menyimpan...</span>}
             </div>

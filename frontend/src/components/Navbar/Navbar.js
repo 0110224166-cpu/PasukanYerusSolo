@@ -2,6 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import Modal from '../Modal/Modal';
+import {
+    HomeIcon, BriefcaseIcon, UserIcon, StarIcon, ClipboardDocumentListIcon,
+    ChartBarIcon, BuildingOfficeIcon, Cog6ToothIcon, KeyIcon, BoltIcon,
+    SunIcon, MoonIcon, XMarkIcon, ArrowLeftOnRectangleIcon
+} from '@heroicons/react/24/outline';
 
 const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
     const navigate = useNavigate();
@@ -63,24 +68,24 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
 
     const getMenuItems = () => {
         const items = [
-            { path: '/home', label: 'Beranda', icon: '🏠' },
-            { path: '/eksplorasi', label: 'Lowongan', icon: '💼' },
+            { path: '/home', label: 'Beranda', icon: HomeIcon },
+            { path: '/eksplorasi', label: 'Lowongan', icon: BriefcaseIcon },
         ];
 
         if (isAuthenticated && userRole === 'Pelamar') {
             items.push(
-                { path: '/profile', label: 'Profil', icon: '👤' },
-                { path: '/favorit', label: 'Favorit', icon: '⭐' },
-                { path: '/status-lamaran', label: 'Status', icon: '📋' },
+                { path: '/profile', label: 'Profil', icon: UserIcon },
+                { path: '/favorit', label: 'Favorit', icon: StarIcon },
+                { path: '/status-lamaran', label: 'Status', icon: ClipboardDocumentListIcon },
             );
         } else if (isAuthenticated && userRole === 'Perusahaan') {
             items.push(
-                { path: '/hrd/dashboard', label: 'Dashboard', icon: '📊' },
-                { path: '/hrd/branding', label: 'Branding', icon: '🏢' },
+                { path: '/hrd/dashboard', label: 'Dashboard', icon: ChartBarIcon },
+                { path: '/hrd/branding', label: 'Branding', icon: BuildingOfficeIcon },
             );
         } else if (isAuthenticated && userRole === 'Admin') {
             items.push(
-                { path: '/admin/dashboard', label: 'Admin', icon: '⚙️' },
+                { path: '/admin/dashboard', label: 'Admin', icon: Cog6ToothIcon },
             );
         }
 
@@ -89,18 +94,18 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
 
     const getBottomNavItems = () => {
         const items = [
-            { path: '/home', icon: '🏠', label: 'Beranda' },
-            { path: '/eksplorasi', icon: '💼', label: 'Lowongan' },
+            { path: '/home', icon: HomeIcon, label: 'Beranda' },
+            { path: '/eksplorasi', icon: BriefcaseIcon, label: 'Lowongan' },
         ];
         if (isAuthenticated && userRole === 'Pelamar') {
-            items.push({ path: '/favorit', icon: '⭐', label: 'Favorit' });
-            items.push({ path: '/profile', icon: '👤', label: 'Profil' });
+            items.push({ path: '/favorit', icon: StarIcon, label: 'Favorit' });
+            items.push({ path: '/profile', icon: UserIcon, label: 'Profil' });
         } else if (isAuthenticated && userRole === 'Perusahaan') {
-            items.push({ path: '/hrd/dashboard', icon: '📊', label: 'Dashboard' });
+            items.push({ path: '/hrd/dashboard', icon: ChartBarIcon, label: 'Dashboard' });
         } else if (isAuthenticated && userRole === 'Admin') {
-            items.push({ path: '/admin/dashboard', icon: '⚙️', label: 'Admin' });
+            items.push({ path: '/admin/dashboard', icon: Cog6ToothIcon, label: 'Admin' });
         } else {
-            items.push({ path: '/login', icon: '🔑', label: 'Login' });
+            items.push({ path: '/login', icon: KeyIcon, label: 'Login' });
         }
         return items;
     };
@@ -108,60 +113,66 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
     const desktopMenuItems = getMenuItems();
     const bottomNavItems = getBottomNavItems();
 
-    const drawerBtn = (item) => (
-        <button
-            key={item.path}
-            onClick={() => navigateTo(item.path)}
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
-                width: '100%',
-                padding: '14px 20px',
-                background: isActive(item.path) ? 'linear-gradient(135deg, rgba(234,88,12,0.1), rgba(245,158,11,0.1))' : 'none',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                fontWeight: isActive(item.path) ? '700' : '500',
-                color: isActive(item.path) ? c.accent : c.textPrimary,
-                transition: 'all 0.2s ease',
-                textAlign: 'left'
-            }}
-            onMouseEnter={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'; }}
-            onMouseLeave={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = 'none'; }}
-        >
-            <span style={{ fontSize: '20px', width: '28px', textAlign: 'center' }}>{item.icon}</span>
-            {item.label}
-        </button>
-    );
-
-    const desktopBtn = (item) => (
-        <button
-            key={item.path}
-            style={{
-                position: 'relative',
-                background: isActive(item.path) ? 'linear-gradient(135deg, #ea580c, #f59e0b)' : 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: isActive(item.path) ? '7px 18px' : '7px 14px',
-                borderRadius: '40px',
-                fontWeight: '800',
-                fontSize: '13px',
-                color: isActive(item.path) ? '#fff' : (hoveredMenu === item.path ? c.accent : c.textSecondary),
-                transition: 'all 0.25s ease',
-                whiteSpace: 'nowrap'
-            }}
-            onClick={() => navigateTo(item.path)}
-            onMouseEnter={() => setHoveredMenu(item.path)}
-            onMouseLeave={() => setHoveredMenu(null)}
-        >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', position: 'relative', zIndex: 1 }}>
-                <span style={{ fontSize: '15px' }}>{item.icon}</span>
+    const drawerBtn = (item) => {
+        const IconComponent = item.icon;
+        return (
+            <button
+                key={item.path}
+                onClick={() => navigateTo(item.path)}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    width: '100%',
+                    padding: '14px 20px',
+                    background: isActive(item.path) ? 'linear-gradient(135deg, rgba(234,88,12,0.1), rgba(245,158,11,0.1))' : 'none',
+                    border: 'none',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: isActive(item.path) ? '700' : '500',
+                    color: isActive(item.path) ? c.accent : c.textPrimary,
+                    transition: 'all 0.2s ease',
+                    textAlign: 'left'
+                }}
+                onMouseEnter={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'; }}
+                onMouseLeave={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = 'none'; }}
+            >
+                <IconComponent style={{ width: '20px', height: '20px' }} />
                 {item.label}
-            </span>
-        </button>
-    );
+            </button>
+        );
+    };
+
+    const desktopBtn = (item) => {
+        const IconComponent = item.icon;
+        return (
+            <button
+                key={item.path}
+                style={{
+                    position: 'relative',
+                    background: isActive(item.path) ? 'linear-gradient(135deg, #ea580c, #f59e0b)' : 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: isActive(item.path) ? '7px 18px' : '7px 14px',
+                    borderRadius: '40px',
+                    fontWeight: '800',
+                    fontSize: '13px',
+                    color: isActive(item.path) ? '#fff' : (hoveredMenu === item.path ? c.accent : c.textSecondary),
+                    transition: 'all 0.25s ease',
+                    whiteSpace: 'nowrap'
+                }}
+                onClick={() => navigateTo(item.path)}
+                onMouseEnter={() => setHoveredMenu(item.path)}
+                onMouseLeave={() => setHoveredMenu(null)}
+            >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', position: 'relative', zIndex: 1 }}>
+                    <IconComponent style={{ width: '15px', height: '15px' }} />
+                    {item.label}
+                </span>
+            </button>
+        );
+    };
 
     return (
         <>
@@ -203,7 +214,7 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                 width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 background: 'linear-gradient(135deg, #ea580c, #f59e0b)', borderRadius: '10px'
                             }}>
-                                <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff' }}>⚡</span>
+                                <BoltIcon style={{ width: '16px', height: '16px', color: '#fff' }} />
                             </div>
                             <span style={{ fontSize: '16px', fontWeight: '900', color: c.textPrimary }}>
                                 <span style={{ background: 'linear-gradient(135deg, #ea580c, #f59e0b)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>Pasukan</span>
@@ -218,7 +229,7 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                 fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 transition: 'all 0.2s ease'
                             }}>
-                                {isDark ? '☀️' : '🌙'}
+                                {isDark ? <SunIcon style={{ width: '18px', height: '18px' }} /> : <MoonIcon style={{ width: '18px', height: '18px' }} />}
                             </button>
 
                             <button onClick={() => setDrawerOpen(true)} style={{
@@ -257,9 +268,10 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                     <button onClick={() => setDrawerOpen(false)} style={{
                                         width: '32px', height: '32px', borderRadius: '50%', border: 'none',
                                         background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                                        cursor: 'pointer', fontSize: '16px', color: c.textSecondary
+                                        cursor: 'pointer', fontSize: '16px', color: c.textSecondary,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center'
                                     }}>
-                                        ✕
+                                        <XMarkIcon style={{ width: '16px', height: '16px' }} />
                                     </button>
                                 </div>
 
@@ -278,7 +290,7 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.08)'}
                                             onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                                         >
-                                            <span style={{ fontSize: '20px', width: '28px', textAlign: 'center' }}>🚪</span>
+                                            <ArrowLeftOnRectangleIcon style={{ width: '20px', height: '20px' }} />
                                             Keluar
                                         </button>
                                     ) : (
@@ -288,7 +300,8 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                             border: 'none', borderRadius: '12px', cursor: 'pointer', fontSize: '16px',
                                             fontWeight: '700', color: '#fff', textAlign: 'left', justifyContent: 'center'
                                         }}>
-                                            🔑 Login
+                                            <KeyIcon style={{ width: '20px', height: '20px' }} />
+                                            Login
                                         </button>
                                     )}
                                 </div>
@@ -312,53 +325,56 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                         padding: '6px 0 calc(6px + env(safe-area-inset-bottom, 0px))',
                         boxShadow: isDark ? '0 -2px 20px rgba(0,0,0,0.3)' : '0 -2px 20px rgba(0,0,0,0.08)'
                     }}>
-                        {bottomNavItems.map(item => (
-                            <button
-                                key={item.path}
-                                onClick={() => navigateTo(item.path)}
-                                style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    gap: '2px',
-                                    padding: '4px 12px',
-                                    color: isActive(item.path) ? c.accent : c.textSecondary,
-                                    transition: 'all 0.2s ease',
-                                    position: 'relative',
-                                    minWidth: '56px',
-                                    flex: 1,
-                                    maxWidth: '80px'
-                                }}
-                            >
-                                {isActive(item.path) && (
-                                    <span style={{
-                                        position: 'absolute',
-                                        top: '-6px',
-                                        left: '50%',
-                                        transform: 'translateX(-50%)',
-                                        width: '20px',
-                                        height: '3px',
-                                        background: c.accent,
-                                        borderRadius: '3px'
+                        {bottomNavItems.map(item => {
+                            const IconComponent = item.icon;
+                            return (
+                                <button
+                                    key={item.path}
+                                    onClick={() => navigateTo(item.path)}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        gap: '2px',
+                                        padding: '4px 12px',
+                                        color: isActive(item.path) ? c.accent : c.textSecondary,
+                                        transition: 'all 0.2s ease',
+                                        position: 'relative',
+                                        minWidth: '56px',
+                                        flex: 1,
+                                        maxWidth: '80px'
+                                    }}
+                                >
+                                    {isActive(item.path) && (
+                                        <span style={{
+                                            position: 'absolute',
+                                            top: '-6px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            width: '20px',
+                                            height: '3px',
+                                            background: c.accent,
+                                            borderRadius: '3px'
+                                        }} />
+                                    )}
+                                    <IconComponent style={{
+                                        width: '20px', height: '20px',
+                                        transform: isActive(item.path) ? 'translateY(-2px) scale(1.1)' : 'none',
+                                        transition: 'transform 0.2s ease'
                                     }} />
-                                )}
-                                <span style={{
-                                    fontSize: '20px', lineHeight: 1,
-                                    transform: isActive(item.path) ? 'translateY(-2px) scale(1.1)' : 'none',
-                                    transition: 'transform 0.2s ease'
-                                }}>{item.icon}</span>
-                                <span style={{
-                                    fontSize: '10px',
-                                    fontWeight: isActive(item.path) ? '700' : '500',
-                                    whiteSpace: 'nowrap'
-                                }}>
-                                    {item.label}
-                                </span>
-                            </button>
-                        ))}
+                                    <span style={{
+                                        fontSize: '10px',
+                                        fontWeight: isActive(item.path) ? '700' : '500',
+                                        whiteSpace: 'nowrap'
+                                    }}>
+                                        {item.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
 
                     <style>{`
@@ -421,7 +437,7 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                     transform: logoHovered ? 'rotate(5deg) scale(1.05)' : 'none',
                                     transition: 'all 0.3s ease'
                                 }}>
-                                    <span style={{ fontSize: '13px', fontWeight: '900', color: '#fff' }}>⚡</span>
+                                    <BoltIcon style={{ width: '13px', height: '13px', color: '#fff' }} />
                                 </div>
                                 <span style={{
                                     fontSize: '12px', fontWeight: '900', letterSpacing: '-0.3px', whiteSpace: 'nowrap'
@@ -448,7 +464,7 @@ const Navbar = ({ isAuthenticated, handleLogout, userRole }) => {
                                 onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}
                                 onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                             >
-                                {isDark ? '☀️' : '🌙'}
+                                {isDark ? <SunIcon style={{ width: '15px', height: '15px' }} /> : <MoonIcon style={{ width: '15px', height: '15px' }} />}
                             </button>
 
                             {isAuthenticated ? (

@@ -1,14 +1,23 @@
 import React from 'react';
+import { MagnifyingGlassIcon, StarIcon, ClipboardDocumentListIcon, UserIcon, KeyIcon } from '@heroicons/react/24/outline';
+
+const sidebarIcons = {
+    eksplorasi: MagnifyingGlassIcon,
+    favorit: StarIcon,
+    status: ClipboardDocumentListIcon,
+    profil: UserIcon,
+    password: KeyIcon,
+};
 
 const Sidebar = ({ activeMenu, setActiveMenu, appTheme, handleLogout }) => {
     const isDark = appTheme === 'dark';
     
     const menuItems = [
-        { id: 'eksplorasi', label: 'Eksplorasi', icon: '🔍' },
-        { id: 'favorit', label: 'Lowongan Favorit', icon: '⭐' },
-        { id: 'status', label: 'Status Lamaran', icon: '📋' },
-        { id: 'profil', label: 'Profil Saya', icon: '👤' },
-        { id: 'password', label: 'Ganti Password', icon: '🔑' }
+        { id: 'eksplorasi', label: 'Eksplorasi', icon: 'eksplorasi' },
+        { id: 'favorit', label: 'Lowongan Favorit', icon: 'favorit' },
+        { id: 'status', label: 'Status Lamaran', icon: 'status' },
+        { id: 'profil', label: 'Profil Saya', icon: 'profil' },
+        { id: 'password', label: 'Ganti Password', icon: 'password' }
     ];
 
     return (
@@ -48,7 +57,7 @@ const Sidebar = ({ activeMenu, setActiveMenu, appTheme, handleLogout }) => {
                                 transition: 'all 0.2s ease'
                             }}
                         >
-                            <span style={{ fontSize: '18px' }}>{item.icon}</span>
+                            {React.createElement(sidebarIcons[item.icon], { style: { width: '18px', height: '18px' } })}
                             {item.label}
                         </button>
                     );

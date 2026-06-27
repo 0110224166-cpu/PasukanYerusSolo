@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 const ApplyJobForm = ({ jobId, onFormSuccess }) => {
     const [fileCv, setFileCv] = useState(null);
@@ -50,7 +51,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess }) => {
             />
             
             <button type="submit" style={{ width: '100%', padding: '10px', background: '#ea580c', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}>
-                🚀 Upload & Kirim Berkas
+                <RocketLaunchIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Upload & Kirim Berkas
             </button>
         </form>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import api from '../../services/api';
 import { ThemeContext } from '../../context/ThemeContext';
+import { CheckCircleIcon, DocumentIcon, FolderIcon, ClockIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
     const { theme } = useContext(ThemeContext);
@@ -9,6 +10,8 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
     const [pesan, setPesan] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [fileName, setFileName] = useState('');
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -21,7 +24,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         }
         
         if (file.type !== 'application/pdf') {
-            alert('❌ Hanya file PDF yang diperbolehkan!');
+            alert('Hanya file PDF yang diperbolehkan!');
             e.target.value = '';
             setFileCv(null);
             setFileName('');
@@ -29,7 +32,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         }
         
         if (file.size > 2 * 1024 * 1024) {
-            alert('❌ Ukuran file maksimal 2MB!');
+            alert('Ukuran file maksimal 2MB!');
             e.target.value = '';
             setFileCv(null);
             setFileName('');
@@ -48,7 +51,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
         console.log('fileCv:', fileCv?.name);
         
         if (!fileCv) {
-            alert('❌ Silahkan pilih file CV anda terlebih dahulu!');
+            alert('Silahkan pilih file CV anda terlebih dahulu!');
             return;
         }
 
@@ -66,7 +69,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
             
             console.log('Response success:', response.data);
             
-            alert('✅ ' + (response.data.message || 'Lamaran berhasil dikirim!'));
+            alert(response.data.message || 'Lamaran berhasil dikirim!');
             
             // Reset form
             setFileCv(null);
@@ -90,7 +93,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
                 errorMsg = err.message;
             }
             
-            alert('❌ ' + errorMsg);
+            alert('Gagal: ' + errorMsg);
             
             if (onError) onError(errorMsg);
         } finally {
@@ -183,10 +186,10 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
     return (
         <form onSubmit={handleApply} style={styles.form}>
             <h4 style={styles.title}>
-                <span>📄</span> Kirim Lamaran (Upload CV)
+                <DocumentIcon style={icn} /> Kirim Lamaran (Upload CV)
             </h4>
             
-            <label style={styles.label}>📁 BERKAS CV (FORMAT .PDF, MAX 2MB)</label>
+            <label style={styles.label}><FolderIcon style={icn} /> BERKAS CV (FORMAT .PDF, MAX 2MB)</label>
             <input 
                 type="file" 
                 accept=".pdf" 
@@ -197,7 +200,7 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
             
             {fileName && (
                 <div style={styles.fileName}>
-                    <span>✅</span> File siap: {fileName}
+                    <CheckCircleIcon style={icn} /> File siap: {fileName}
                 </div>
             )}
             
@@ -233,11 +236,11 @@ const ApplyJobForm = ({ jobId, onFormSuccess, onSuccess, onError }) => {
             >
                 {isSubmitting ? (
                     <>
-                        <span>⏳</span> Mengirim...
+                        <ClockIcon style={icn} /> Mengirim...
                     </>
                 ) : (
                     <>
-                        <span>🚀</span> Kirim Lamaran
+                        <RocketLaunchIcon style={icn} /> Kirim Lamaran
                     </>
                 )}
             </button>

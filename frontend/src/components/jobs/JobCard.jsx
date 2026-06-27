@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import { formatRupiah } from '../../utils/formatRupiah';
+import { BuildingOfficeIcon, FolderOpenIcon, CurrencyDollarIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 const JobCard = ({ job, isFull }) => {
     const navigate = useNavigate();
     const { theme } = useContext(ThemeContext);
@@ -136,7 +137,7 @@ const JobCard = ({ job, isFull }) => {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '16px', color: '#fff'
                     }}>
-                        🏢
+                        <BuildingOfficeIcon style={{width: '16px', height: '16px'}} />
                     </div>
                 </div>
                 <span style={{
@@ -149,8 +150,8 @@ const JobCard = ({ job, isFull }) => {
 
             <h3 style={titleStyles}>{job.title || "Posisi Tidak Diketahui"}</h3>
             
-            <p style={categoryStyles}>📂 Kategori: {job.kategori || "Umum"}</p>
-            <p style={salaryStyles}>💰 {formatRupiah(job.gaji)}</p>
+            <p style={categoryStyles}><FolderOpenIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Kategori: {job.kategori || "Umum"}</p>
+            <p style={salaryStyles}><CurrencyDollarIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> {formatRupiah(job.gaji)}</p>
             
             {isFull && (
                 <div style={detailSectionStyles}>
@@ -166,7 +167,7 @@ const JobCard = ({ job, isFull }) => {
                             e.currentTarget.style.boxShadow = 'none';
                         }}
                     >
-                        Lamar Sekarang →
+                        Lamar Sekarang <ArrowRightIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px'}} />
                     </button>
                 </div>
             )}

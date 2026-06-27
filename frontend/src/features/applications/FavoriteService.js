@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
+import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
 
 const FavoriteService = ({ jobId }) => {
     const [isFavorited, setIsFavorited] = useState(false);
@@ -26,7 +28,7 @@ const FavoriteService = ({ jobId }) => {
                     width: '100%', justifyContent: 'center'
                 }}
             >
-                {isFavorited ? '⭐ Tersimpan di Favorit' : '☆ Tambah ke Favorit'}
+                {isFavorited ? <span><StarSolid style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px', color: '#22c55e' }} /> Tersimpan di Favorit</span> : <span><StarOutline style={{ width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' }} /> Tambah ke Favorit</span>}
             </button>
         </div>
     );

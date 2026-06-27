@@ -4,6 +4,7 @@ import JobList from '../../components/jobs/JobList';
 import FilterBox from './FilterBox';
 import ApplyJobForm from '../lamaran/ApplyJobForm';
 import api from '../../services/api';
+import { ChartBarIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const JobListContainer = ({ variant = 'simple', limit }) => {
     const { theme } = useContext(ThemeContext);
@@ -126,7 +127,7 @@ const JobListContainer = ({ variant = 'simple', limit }) => {
                     gap: '10px'
                 }}>
                     <span style={{ color: isDark ? '#a3a3a3' : '#57534e', fontSize: '13px' }}>
-                        📊 Menampilkan <strong style={{ color: '#ea580c' }}>{filteredJobs.length}</strong> dari <strong>{jobs.length}</strong> lowongan
+                        <ChartBarIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Menampilkan <strong style={{ color: '#ea580c' }}>{filteredJobs.length}</strong> dari <strong>{jobs.length}</strong> lowongan
                     </span>
                     <button 
                         onClick={() => {
@@ -152,7 +153,7 @@ const JobListContainer = ({ variant = 'simple', limit }) => {
                             e.currentTarget.style.color = isDark ? '#a3a3a3' : '#57534e';
                         }}
                     >
-                        Reset Filter ✖
+                        Reset Filter <XMarkIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '2px'}} />
                     </button>
                 </div>
             )}

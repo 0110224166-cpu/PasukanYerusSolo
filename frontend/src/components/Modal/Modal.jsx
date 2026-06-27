@@ -1,6 +1,7 @@
 // src/components/Modal/Modal.jsx
 import React, { useEffect } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import { CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
 const Modal = ({ isOpen, onClose, title, message, type = 'success', onConfirm }) => {
     const { theme } = React.useContext(ThemeContext);
@@ -20,17 +21,18 @@ const Modal = ({ isOpen, onClose, title, message, type = 'success', onConfirm })
     if (!isOpen) return null;
 
     const getIcon = () => {
+        const iconStyle = { width: '36px', height: '36px', color: colors.border };
         switch (type) {
             case 'success':
-                return '✅';
+                return <CheckCircleIcon style={iconStyle} />;
             case 'error':
-                return '❌';
+                return <XCircleIcon style={iconStyle} />;
             case 'warning':
-                return '⚠️';
+                return <ExclamationTriangleIcon style={iconStyle} />;
             case 'info':
-                return 'ℹ️';
+                return <InformationCircleIcon style={iconStyle} />;
             default:
-                return '✅';
+                return <CheckCircleIcon style={iconStyle} />;
         }
     };
 
@@ -152,7 +154,7 @@ const Modal = ({ isOpen, onClose, title, message, type = 'success', onConfirm })
         <div style={styles.overlay} onClick={onClose}>
             <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div style={styles.iconWrapper}>
-                    <span style={styles.icon}>{getIcon()}</span>
+                    {getIcon()}
                 </div>
                 <h3 style={styles.title}>{title}</h3>
                 <p style={styles.message}>{message}</p>

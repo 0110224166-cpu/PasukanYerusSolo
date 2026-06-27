@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import JobCard from './JobCard';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const JobList = ({ jobs, variant, onSelectJob }) => {
     const { theme } = useContext(ThemeContext);
@@ -30,7 +31,7 @@ const JobList = ({ jobs, variant, onSelectJob }) => {
     if (safeJobs.length === 0) {
         return (
             <div style={emptyStateStyle}>
-                <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🔍</span>
+                <MagnifyingGlassIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px', color: isDark ? '#a3a3a3' : '#57534e' }} />
                 <h3 style={{ color: isDark ? '#fef3c7' : '#1c1917', marginBottom: '8px' }}>Belum Ada Lowongan</h3>
                 <p>Saat ini belum ada lowongan yang tersedia. Silakan cek kembali nanti.</p>
             </div>

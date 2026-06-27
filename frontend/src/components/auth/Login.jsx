@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import api from '../../services/api';
 import Modal from '../Modal/Modal';
+import { CheckCircleIcon, XCircleIcon, SparklesIcon, EnvelopeIcon, LockClosedIcon, EyeIcon, ClockIcon, RocketLaunchIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const Login = ({ onLoginSuccess }) => {
     const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Login = ({ onLoginSuccess }) => {
                     localStorage.setItem('role', userRole);
                 }
                 
-                showNotification('✅ Berhasil Login', `Selamat datang kembali!`, 'success');
+                showNotification('Berhasil Login', `Selamat datang kembali!`, 'success');
                 
                 setTimeout(() => {
                     if (onLoginSuccess) onLoginSuccess();
@@ -51,12 +52,12 @@ const Login = ({ onLoginSuccess }) => {
                 }, 1500);
             } else {
                 setError('Response tidak valid dari server');
-                showNotification('❌ Gagal Login', 'Response tidak valid dari server', 'error');
+                showNotification('Gagal Login', 'Response tidak valid dari server', 'error');
             }
         } catch (err) {
             const errorMsg = err.response?.data?.message || 'Email atau password salah!';
             setError(errorMsg);
-            showNotification('❌ Gagal Login', errorMsg, 'error');
+            showNotification('Gagal Login', errorMsg, 'error');
         } finally {
             setLoading(false);
         }
@@ -216,11 +217,11 @@ const Login = ({ onLoginSuccess }) => {
                         <div style={styles.subBrand}>Job Portal</div>
                     </div>
                     <h2 style={styles.title}>
-                        <span style={{ color: '#ea580c' }}>✨</span> Masuk Akun
+                        <SparklesIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle', color: '#ea580c', marginRight: '4px'}} /> Masuk Akun
                     </h2>
                     {error && <div style={styles.errorAlert}>{error}</div>}
                     <form onSubmit={handleLogin}>
-                        <label style={styles.label}>📧 Email</label>
+                        <label style={styles.label}><EnvelopeIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Email</label>
                         <div style={styles.inputWrapper}>
                             <input 
                                 type="email" 
@@ -233,7 +234,7 @@ const Login = ({ onLoginSuccess }) => {
                             />
                         </div>
                         
-                        <label style={styles.label}>🔒 Password</label>
+                        <label style={styles.label}><LockClosedIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Password</label>
                         <div style={styles.inputWrapper}>
                             <input 
                                 type={showPassword ? "text" : "password"} 
@@ -249,7 +250,7 @@ const Login = ({ onLoginSuccess }) => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 style={styles.passwordToggle}
                             >
-                                {showPassword ? '👁️' : '🔒'}
+                                {showPassword ? <EyeIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} /> : <LockClosedIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} />}
                             </button>
                         </div>
                         
@@ -266,7 +267,7 @@ const Login = ({ onLoginSuccess }) => {
                                 e.currentTarget.style.boxShadow = 'none';
                             }}
                         >
-                            {loading ? '⏳ Memverifikasi...' : '🚀 Masuk Akun'}
+                            {loading ? <><ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Memverifikasi...</> : <><RocketLaunchIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Masuk Akun</>}
                         </button>
                     </form>
                     
@@ -285,7 +286,7 @@ const Login = ({ onLoginSuccess }) => {
                             e.currentTarget.style.transform = 'translateY(0)';
                         }}
                     >
-                        🔍 Jelajahi Sebagai Guest
+                        <MagnifyingGlassIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Jelajahi Sebagai Guest
                     </button>
                     
                     <p style={styles.footerText}>

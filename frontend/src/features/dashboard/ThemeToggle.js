@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
 const ThemeToggle = ({ onThemeChange }) => {
     const [darkMode, setDarkMode] = useState(false);
@@ -83,7 +84,7 @@ const ThemeToggle = ({ onThemeChange }) => {
             <div onClick={handleToggle} style={styles.toggleTrack} title="Ganti Tema">
                 {/* Bagian lingkaran penunjuk yang bergeser membawa emoji */}
                 <div style={styles.toggleThumb}>
-                    {isDark ? '🌙' : '☀️'}
+                    {isDark ? <MoonIcon style={{ width: '14px', height: '14px', color: '#fff' }} /> : <SunIcon style={{ width: '14px', height: '14px', color: '#fff' }} />}
                 </div>
             </div>
         </div>

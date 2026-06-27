@@ -4,6 +4,8 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import { formatRupiah } from '../../utils/formatRupiah';
+import { ClockIcon, ExclamationTriangleIcon, ArrowPathIcon, FolderOpenIcon, CurrencyDollarIcon, TagIcon, TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 const FavoriteListContainer = () => {
     const navigate = useNavigate();
@@ -14,6 +16,8 @@ const FavoriteListContainer = () => {
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState({ title: '', message: '', type: 'success' });
+
+    const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
 
     const showNotification = (title, message, type = 'success') => {
         setModalMessage({ title, message, type });
@@ -44,10 +48,10 @@ const FavoriteListContainer = () => {
         try {
             await api.delete(`/favorit/${idLowongan}`);
             setFavorites(favorites.filter(f => f.id_lowongan !== idLowongan));
-            showNotification('✅ Dihapus dari Favorit', 'Lowongan berhasil dihapus dari daftar favorit!', 'success');
+            showNotification('Dihapus dari Favorit', 'Lowongan berhasil dihapus dari daftar favorit!', 'success');
         } catch (err) {
             const msg = err.response?.data?.message || err.message;
-            showNotification('❌ Gagal', `Gagal menghapus: ${msg}`, 'error');
+            showNotification('Gagal', `Gagal menghapus: ${msg}`, 'error');
         }
     };
 
@@ -71,7 +75,7 @@ const FavoriteListContainer = () => {
                     margin: '0 auto 16px auto',
                     animation: 'spin 1s linear infinite'
                 }} />
-                <p>⏳ Memuat daftar favorit...</p>
+                <p><ClockIcon style={icn} /> Memuat daftar favorit...</p>
                 <style>{`
                     @keyframes spin {
                         0% { transform: rotate(0deg); }
@@ -93,7 +97,7 @@ const FavoriteListContainer = () => {
                 border: `1px solid ${colors.border}`,
                 margin: '20px'
             }}>
-                <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>⚠️</span>
+                <ExclamationTriangleIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px auto' }} />
                 <h3 style={{ color: colors.textMain, marginBottom: '8px' }}>Gagal Memuat Data</h3>
                 <p>{error}</p>
                 <button 
@@ -118,7 +122,7 @@ const FavoriteListContainer = () => {
                         e.currentTarget.style.boxShadow = 'none';
                     }}
                 >
-                    🔄 Coba Lagi
+                    <ArrowPathIcon style={icn} /> Coba Lagi
                 </button>
             </div>
         );
@@ -137,7 +141,7 @@ const FavoriteListContainer = () => {
             <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px' }}>
                 <div style={{ marginBottom: '32px' }}>
                     <h1 style={{ color: colors.textMain, fontSize: '28px', fontWeight: '800', marginBottom: '8px' }}>
-                        ⭐ Lowongan Favorit
+                        <StarIcon style={icn} /> Lowongan Favorit
                     </h1>
                     <p style={{ color: colors.textMuted, fontSize: '14px' }}>
                         {favorites.length} lowongan yang Anda simpan
@@ -175,13 +179,13 @@ const FavoriteListContainer = () => {
                                             {job.judul_posisi || 'Lowongan'}
                                         </h3>
                                         <p style={{ margin: '0 0 4px 0', color: colors.accent, fontWeight: '600', fontSize: '13px' }}>
-                                            📂 {job.kategori || 'IT'}
+                                            <FolderOpenIcon style={icn} /> {job.kategori || 'IT'}
                                         </p>
                                         <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: colors.textMuted }}>
-                                            💰 {formatRupiah(job.gaji)}
+                                            <CurrencyDollarIcon style={icn} /> {formatRupiah(job.gaji)}
                                         </p>
                                         <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: colors.textMuted }}>
-                                            🏷️ {job.tipe_pekerjaan || 'Full-time'}
+                                            <TagIcon style={icn} /> {job.tipe_pekerjaan || 'Full-time'}
                                         </p>
                                     </div>
                                     <button
@@ -206,17 +210,16 @@ const FavoriteListContainer = () => {
                                         }}
                                         title="Hapus dari favorit"
                                     >
-                                        🗑️
+                                        <TrashIcon style={{ width: '1em', height: '1em' }} />
                                     </button>
                                 </div>
                                 <div style={{
                                     position: 'absolute',
                                     top: '16px',
                                     right: '60px',
-                                    fontSize: '20px',
                                     color: '#f59e0b'
                                 }}>
-                                    ⭐
+                                    <StarIcon style={{ width: '1em', height: '1em' }} />
                                 </div>
                             </div>
                         ))}
@@ -230,9 +233,9 @@ const FavoriteListContainer = () => {
                         borderRadius: '20px',
                         border: `1px solid ${colors.border}`
                     }}>
-                        <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>⭐</span>
+                        <StarIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px auto' }} />
                         <h3 style={{ color: colors.textMain, marginBottom: '8px' }}>Belum Ada Lowongan Favorit</h3>
-                        <p>Jelajahi lowongan dan klik ★ untuk menyimpan ke favorit!</p>
+                        <p>Jelajahi lowongan dan klik <StarIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} /> untuk menyimpan ke favorit!</p>
                         <button 
                             onClick={() => navigate('/eksplorasi')}
                             style={{
@@ -255,7 +258,7 @@ const FavoriteListContainer = () => {
                                 e.currentTarget.style.boxShadow = 'none';
                             }}
                         >
-                            🔍 Cari Lowongan
+                            <MagnifyingGlassIcon style={icn} /> Cari Lowongan
                         </button>
                     </div>
                 )}

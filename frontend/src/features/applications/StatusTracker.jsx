@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import api from '../../services/api';
+import { ClockIcon, ClipboardDocumentListIcon, ChatBubbleLeftRightIcon, CheckCircleIcon, XCircleIcon, CalendarIcon, ChatBubbleLeftIcon, InboxIcon } from '@heroicons/react/24/outline';
 
 export default function StatusTracker({ appTheme, isMobile }) {
     const { theme } = useContext(ThemeContext);
@@ -30,14 +31,15 @@ export default function StatusTracker({ appTheme, isMobile }) {
     }, []);
 
     const getStatusBadge = (status) => {
+        const icn = { width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px' };
         const statusMap = {
-            'Menunggu': { bg: 'linear-gradient(135deg, #6b7280, #4b5563)', text: '#fff', label: '🕒 Menunggu' },
-            'Review': { bg: 'linear-gradient(135deg, #f59e0b, #ea580c)', text: '#fff', label: '📋 Review' },
-            'Interview': { bg: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', text: '#fff', label: '🗣️ Interview' },
-            'Lolos': { bg: 'linear-gradient(135deg, #22c55e, #16a34a)', text: '#fff', label: '✅ Lolos' },
-            'Gagal': { bg: 'linear-gradient(135deg, #ef4444, #dc2626)', text: '#fff', label: '❌ Gagal' }
+            'Menunggu': { bg: 'linear-gradient(135deg, #6b7280, #4b5563)', text: '#fff', icon: <ClockIcon style={icn} />, label: 'Menunggu' },
+            'Review': { bg: 'linear-gradient(135deg, #f59e0b, #ea580c)', text: '#fff', icon: <ClipboardDocumentListIcon style={icn} />, label: 'Review' },
+            'Interview': { bg: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', text: '#fff', icon: <ChatBubbleLeftRightIcon style={icn} />, label: 'Interview' },
+            'Lolos': { bg: 'linear-gradient(135deg, #22c55e, #16a34a)', text: '#fff', icon: <CheckCircleIcon style={icn} />, label: 'Lolos' },
+            'Gagal': { bg: 'linear-gradient(135deg, #ef4444, #dc2626)', text: '#fff', icon: <XCircleIcon style={icn} />, label: 'Gagal' }
         };
-        return statusMap[status] || { bg: 'linear-gradient(135deg, #6b7280, #4b5563)', text: '#fff', label: '📋 Menunggu' };
+        return statusMap[status] || { bg: 'linear-gradient(135deg, #6b7280, #4b5563)', text: '#fff', icon: <ClipboardDocumentListIcon style={icn} />, label: 'Menunggu' };
     };
 
     const formatDate = (dateString) => {
@@ -70,7 +72,7 @@ export default function StatusTracker({ appTheme, isMobile }) {
                     margin: '0 auto 16px auto',
                     animation: 'spin 1s linear infinite'
                 }} />
-                <p>⏳ Memuat data lamaran...</p>
+                <p><ClockIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Memuat data lamaran...</p>
                 <style>{`
                     @keyframes spin {
                         0% { transform: rotate(0deg); }
@@ -85,7 +87,7 @@ export default function StatusTracker({ appTheme, isMobile }) {
         <div style={{ padding: isMobile ? '20px' : '40px', maxWidth: '900px', margin: '0 auto', width: '100%' }}>
             <div style={{ marginBottom: '32px' }}>
                 <h1 style={{ color: colors.textMain, fontSize: isMobile ? '24px' : '32px', fontWeight: '800', marginBottom: '8px' }}>
-                    📋 Riwayat Lamaran
+                    <ClipboardDocumentListIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Riwayat Lamaran
                 </h1>
                 <p style={{ color: colors.textMuted, fontSize: '14px' }}>
                     Total <strong style={{ color: '#ea580c' }}>{applications.length}</strong> lamaran yang telah Anda kirim
@@ -122,7 +124,7 @@ export default function StatusTracker({ appTheme, isMobile }) {
                                     {app.nama_perusahaan || 'Perusahaan'}
                                 </p>
                                 <p style={{ margin: '0', fontSize: '12px', color: colors.textMuted }}>
-                                    📅 Melamar pada: {formatDate(app.tanggal_melamar)}
+                                    <CalendarIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Melamar pada: {formatDate(app.tanggal_melamar)}
                                 </p>
                                 {app.pesan_tambahan && (
                                     <div style={{ 
@@ -134,7 +136,7 @@ export default function StatusTracker({ appTheme, isMobile }) {
                                         color: colors.textMuted, 
                                         borderLeft: `2px solid #ea580c` 
                                     }}>
-                                        💬 {app.pesan_tambahan}
+                                        <ChatBubbleLeftIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> {app.pesan_tambahan}
                                     </div>
                                 )}
                             </div>
@@ -146,9 +148,12 @@ export default function StatusTracker({ appTheme, isMobile }) {
                                 borderRadius: '20px',
                                 fontWeight: '800',
                                 fontSize: isMobile ? '11px' : '12px',
-                                whiteSpace: 'nowrap'
+                                whiteSpace: 'nowrap',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px'
                             }}>
-                                {badge.label}
+                                {badge.icon} {badge.label}
                             </div>
                         </div>
                     );
@@ -164,7 +169,7 @@ export default function StatusTracker({ appTheme, isMobile }) {
                     borderRadius: '20px',
                     border: `1px solid ${colors.border}`
                 }}>
-                    <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📭</span>
+                    <InboxIcon style={{ width: '48px', height: '48px', display: 'block', margin: '0 auto 16px auto' }} />
                     <h3 style={{ color: colors.textMain, marginBottom: '8px' }}>Belum Ada Lamaran</h3>
                     <p>Anda belum mengirimkan lamaran apapun. Yuk, cari lowongan sekarang!</p>
                 </div>

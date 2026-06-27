@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
+import { SparklesIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const Hero = () => {
   const { theme } = useContext(ThemeContext);
@@ -106,7 +107,7 @@ const Hero = () => {
           display: 'inline-block',
           marginBottom: '24px'
         }}>
-          ✨ #1 Portal Karir di Solo Raya
+          <SparklesIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> #1 Portal Karir di Solo Raya
         </span>
 
         <h1 style={{
@@ -161,7 +162,7 @@ const Hero = () => {
             onMouseEnter={() => setCtaHover(true)}
             onMouseLeave={() => setCtaHover(false)}
           >
-            Mulai Eksplorasi →
+            Mulai Eksplorasi <ArrowRightIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px'}} />
           </button>
           <button
             onClick={() => navigate('/register')}

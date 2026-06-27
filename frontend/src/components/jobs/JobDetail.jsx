@@ -5,6 +5,7 @@ import api from '../../services/api';
 import ApplyJobForm from '../../features/lamaran/ApplyJobForm';
 import FavoriteService from '../../features/lamaran/FavoriteService';
 import { formatRupiah } from '../../utils/formatRupiah';
+import { CheckCircleIcon, XCircleIcon, ClockIcon, ArrowLeftIcon, BuildingOfficeIcon, TagIcon, MapPinIcon, ArrowRightIcon, XMarkIcon, PhoneIcon, BookOpenIcon, FolderOpenIcon, CurrencyDollarIcon, ClipboardDocumentListIcon, PencilSquareIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
 const JobDetail = () => {
     const { id } = useParams();
@@ -33,14 +34,14 @@ const JobDetail = () => {
     };
 
     const handleApplySuccess = (message) => {
-        showToast(message || '✅ Lamaran berhasil dikirim!', 'success');
+        showToast(message || 'Lamaran berhasil dikirim!', 'success');
         setTimeout(() => {
             setShowApplyForm(false);
         }, 2000);
     };
 
     const handleApplyError = (message) => {
-        showToast(message || '❌ Gagal mengirim lamaran', 'error');
+        showToast(message || 'Gagal mengirim lamaran', 'error');
     };
 
     const getBadgeStyle = (type) => {
@@ -175,8 +176,8 @@ const JobDetail = () => {
         }
     };
 
-    if (loading) return <div style={styles.center}>📡 Memuat data...</div>;
-    if (!job) return <div style={styles.center}>❌ Lowongan tidak ditemukan.</div>;
+    if (loading) return <div style={styles.center}><ClockIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle', marginRight: '4px'}} /> Memuat data...</div>;
+    if (!job) return <div style={styles.center}><XCircleIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle', color: '#ef4444', marginRight: '4px'}} /> Lowongan tidak ditemukan.</div>;
 
     return (
         <>
@@ -191,7 +192,7 @@ const JobDetail = () => {
                         ? (isDark ? '#86efac' : '#166534')
                         : (isDark ? '#fecaca' : '#991b1b')
                 }}>
-                    <span>{toast.type === 'success' ? '✅' : '❌'}</span>
+                    {toast.type === 'success' ? <CheckCircleIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} /> : <XCircleIcon style={{width: '1.2em', height: '1.2em', verticalAlign: 'middle'}} />}
                     {toast.text}
                 </div>
             )}
@@ -211,7 +212,7 @@ const JobDetail = () => {
                         e.currentTarget.style.transform = 'translateX(0)';
                     }}
                 >
-                    ← Kembali
+                    <ArrowLeftIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Kembali
                 </button>
 
                 <div style={styles.card}>
@@ -268,7 +269,7 @@ const JobDetail = () => {
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontSize: '24px', color: '#fff'
                             }}>
-                                🏢
+                                <BuildingOfficeIcon style={{width: '24px', height: '24px'}} />
                             </div>
                         </div>
                         <div style={{ flex: 1 }}>
@@ -277,17 +278,17 @@ const JobDetail = () => {
                             </h3>
                             {job.bidang && (
                                 <p style={{ margin: '4px 0 0', fontSize: '12px', color: isDark ? '#a1a1aa' : '#735b4e' }}>
-                                    🏷️ {job.bidang}
+                                    <TagIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> {job.bidang}
                                 </p>
                             )}
                             {job.lokasi && (
                                 <p style={{ margin: '4px 0 0', fontSize: '13px', color: isDark ? '#a1a1aa' : '#57534e' }}>
-                                    📍 {job.lokasi}
+                                    <MapPinIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> {job.lokasi}
                                 </p>
                             )}
                         </div>
                         <span style={{ fontSize: '12px', color: '#ea580c', fontWeight: '600', whiteSpace: 'nowrap' }}>
-                            Lihat info →
+                            Lihat info <ArrowRightIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '2px'}} />
                         </span>
                     </div>
 
@@ -322,7 +323,7 @@ const JobDetail = () => {
                                 }}
                                     onMouseEnter={(e) => { e.currentTarget.style.background = isDark ? '#262626' : '#f5f5f4'; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; }}
-                                >✕</button>
+                                ><XMarkIcon style={{width: '20px', height: '20px'}} /></button>
 
                                 {/* Header Section */}
                                 <div style={{
@@ -352,7 +353,7 @@ const JobDetail = () => {
                                                 onError={(e) => { e.target.style.display = 'none'; }}
                                             />
                                         )}
-                                        🏢
+                                        <BuildingOfficeIcon style={{width: '38px', height: '38px'}} />
                                     </div>
                                     <h2 style={{
                                         margin: 0, fontSize: '22px', fontWeight: '800',
@@ -386,7 +387,7 @@ const JobDetail = () => {
                                                     background: 'linear-gradient(135deg, #ea580c, #f59e0b)',
                                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                     fontSize: '16px', flexShrink: 0
-                                                }}>🏷️</div>
+                                                }}><TagIcon style={{width: '16px', height: '16px'}} /></div>
                                                 <div style={{ flex: 1, minWidth: 0 }}>
                                                     <p style={{
                                                         margin: 0, fontSize: '11px',
@@ -417,7 +418,7 @@ const JobDetail = () => {
                                                     background: 'linear-gradient(135deg, #ea580c, #f59e0b)',
                                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                     fontSize: '16px', flexShrink: 0
-                                                }}>📍</div>
+                                                }}><MapPinIcon style={{width: '16px', height: '16px'}} /></div>
                                                 <div style={{ flex: 1, minWidth: 0 }}>
                                                     <p style={{
                                                         margin: 0, fontSize: '11px',
@@ -448,7 +449,7 @@ const JobDetail = () => {
                                                     background: 'linear-gradient(135deg, #ea580c, #f59e0b)',
                                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                     fontSize: '16px', flexShrink: 0
-                                                }}>📞</div>
+                                                }}><PhoneIcon style={{width: '16px', height: '16px'}} /></div>
                                                 <div style={{ flex: 1, minWidth: 0 }}>
                                                     <p style={{
                                                         margin: 0, fontSize: '11px',
@@ -478,7 +479,7 @@ const JobDetail = () => {
                                             fontSize: '14px',
                                             fontWeight: '800',
                                             color: isDark ? '#fef3c7' : '#1c1917'
-                                        }}>📖 Tentang Perusahaan</h4>
+                                        }}                                        ><BookOpenIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Tentang Perusahaan</h4>
                                         <p style={{
                                             margin: 0,
                                             fontSize: '14px',
@@ -495,7 +496,7 @@ const JobDetail = () => {
                     )}
 
                     <div style={styles.metaContainer}>
-                        <span style={styles.badge}>📂 {job.kategori}</span>
+                        <span style={styles.badge}><FolderOpenIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> {job.kategori}</span>
                         <span style={{ 
                             ...getBadgeStyle(job.type), 
                             padding: '6px 14px', 
@@ -508,14 +509,14 @@ const JobDetail = () => {
                     </div>
 
                     <div style={styles.section}>
-                        <h3 style={styles.subTitle}>💰 Gaji</h3>
+                        <h3 style={styles.subTitle}><CurrencyDollarIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Gaji</h3>
                         <p style={{ color: isDark ? '#fef3c7' : '#1c1917', fontSize: '18px', fontWeight: '600' }}>
                             {formatRupiah(job.gaji)}
                         </p>
                     </div>
 
                     <div style={styles.section}>
-                        <h3 style={styles.subTitle}>📋 Deskripsi Pekerjaan</h3>
+                        <h3 style={styles.subTitle}><ClipboardDocumentListIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Deskripsi Pekerjaan</h3>
                         <p style={styles.desc}>{job.deskripsi}</p>
                     </div>
 
@@ -531,7 +532,7 @@ const JobDetail = () => {
                             e.currentTarget.style.boxShadow = 'none';
                         }}
                     >
-                        {isAuthenticated ? (showApplyForm ? '✖ Tutup Form' : '📝 Lamar Sekarang') : '🔒 Login untuk Melamar'}
+                        {isAuthenticated ? (showApplyForm ? <><XMarkIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Tutup Form</> : <><PencilSquareIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Lamar Sekarang</>) : <><LockClosedIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginRight: '4px'}} /> Login untuk Melamar</>}
                     </button>
 
                     {showApplyForm && (

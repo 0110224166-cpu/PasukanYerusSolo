@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
+import { BoltIcon, CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 const Footer = () => {
     const { theme } = useContext(ThemeContext);
@@ -85,7 +86,7 @@ const Footer = () => {
                         fontSize: '22px', fontWeight: '900',
                         letterSpacing: '-0.5px'
                     }}>
-                        ⚡ <span style={{
+                        <BoltIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} /> <span style={{
                             background: c.accentGrad,
                             backgroundClip: 'text', WebkitBackgroundClip: 'text',
                             color: 'transparent'
@@ -183,7 +184,7 @@ const Footer = () => {
                             onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
                         >
-                            {isSubmitted ? '✓' : 'Kirim'}
+                            {isSubmitted ? <CheckIcon style={{ width: '14px', height: '14px' }} /> : 'Kirim'}
                         </button>
                     </form>
                     {isSubmitted && (
@@ -194,7 +195,7 @@ const Footer = () => {
                             borderRadius: '8px', fontSize: '12px',
                             color: '#4ade80', textAlign: 'center'
                         }}>
-                            ✅ Berhasil berlangganan!
+                            <CheckCircleIcon style={{ width: '1em', height: '1em', verticalAlign: 'middle' }} /> Berhasil berlangganan!
                         </div>
                     )}
                 </div>

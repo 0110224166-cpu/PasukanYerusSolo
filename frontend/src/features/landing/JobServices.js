@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '../../components/ScrollReveal';
 import { ThemeContext } from '../../context/ThemeContext';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const JobServices = () => {
   const { theme } = useContext(ThemeContext);
@@ -185,7 +186,7 @@ const JobServices = () => {
                 onMouseEnter={(e) => { e.currentTarget.style.gap = '10px'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.gap = '6px'; }}
               >
-                Lihat Lowongan →
+                Lihat Lowongan <ArrowRightIcon style={{width: '1em', height: '1em', verticalAlign: 'middle', marginLeft: '4px'}} />
               </span>
             </div>
           </div>
