@@ -14,8 +14,8 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool;
-// Mengecek koneksi saat server pertama kali jalan
-const promisePool = pool.promise();
+
+const promisePool = pool;
 promisePool.query('SELECT 1 + 1 AS result')
   .then(() => console.log('Koneksi Database MySQL/MariaDB Berhasil ✅'))
   .catch(err => console.error('Koneksi Gagal ❌:', err.message));
