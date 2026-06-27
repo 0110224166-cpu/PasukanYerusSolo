@@ -3,16 +3,25 @@ const mysql = require('mysql2');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    // Menyesuaikan otomatis dengan variabel yang disediakan MySQL Railway
-    host: process.env.MYSQLHOST || 'localhost',
-    user: process.env.MYSQLUSER || 'root',
-    password: process.env.MYSQLPASSWORD || 'admin123',
-    database: process.env.MYSQLDATABASE || 'job_portal_db',
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
     port: process.env.MYSQLPORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
+
+// Kode untuk mengetes koneksi saat server pertama kali menyala
+pool.getConnection()
+    .then(connection => {
+        console.log("Koneksi Database Berhasil!  Sukses Terhubung.");
+        connection.release();
+    })
+    .catch(err => {
+        console.error("Koneksi Gagal : ", err.message);
+    });
 
 module.exports = pool;
 
