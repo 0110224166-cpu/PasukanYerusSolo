@@ -9,11 +9,12 @@ Dibangun dengan React + Node.js + Express + MySQL.
 
 ### Role: Pelamar
 - Registrasi & login akun
+- Walkthrough 3-step onboarding untuk pengunjung baru
 - Jelajahi & cari lowongan kerja (filter kategori/tipe, sortir: terbaru, gaji, A-Z)
 - Lihat detail lowongan dengan informasi perusahaan (logo, nama, bidang, lokasi, telepon, deskripsi)
 - Info perusahaan lengkap di modal popup (klik "Lihat info" pada card perusahaan)
 - Simpan lowongan favorit ⭐
-- Lamar pekerjaan (upload CV + pesan tambahan)
+- Lamar pekerjaan (upload CV .pdf max 2MB + pesan tambahan)
 - Lacak status lamaran (Menunggu → Review → Interview → Lolos/Gagal)
 - Update profil (foto, telepon, keahlian, tentang saya)
 
@@ -24,6 +25,7 @@ Dibangun dengan React + Node.js + Express + MySQL.
 - Input gaji otomatis format Rupiah (Rp xxx.xxx)
 - Input kategori lowongan dengan dropdown 13 opsi + custom input
 - Informasi branding muncul otomatis di kartu lowongan & modal info perusahaan
+- Update status lamaran (Menunggu → Review → Interview → Lolos/Gagal)
 
 ### Role: Admin
 - Dashboard statistik (total pengguna, perusahaan, pelamar, lowongan, lamaran)
@@ -35,11 +37,13 @@ Dibangun dengan React + Node.js + Express + MySQL.
 
 ### Fitur Umum
 - Walkthrough interaktif (3 slide) untuk pengunjung baru
-- Dark/light theme 🌙☀️
+- Dark/light theme 🌙☀️ via ThemeContext
 - Mobile responsive dengan bottom navigation
+- Icons: Heroicons v2 outline (`@heroicons/react/24/outline`)
 - Notifikasi modal untuk login, register, & logout
 - Scroll-to-top otomatis setiap navigasi
-- Footer dengan 4 tautan: Tentang Kami, Kebijakan Privasi, S&K, FAQ
+- Footer dengan 5 tautan: Tentang Kami, Kebijakan Privasi, S&K, Karier, FAQ
+- Axios instance dengan JWT interceptor untuk API calls
 
 ---
 
@@ -47,7 +51,7 @@ Dibangun dengan React + Node.js + Express + MySQL.
 
 | Layer | Teknologi |
 |-------|-----------|
-| Frontend | React 19, React Router 7, Axios |
+| Frontend | React 19, React Router 7, Axios, Heroicons v2 |
 | Backend | Node.js, Express 5 |
 | Database | MySQL / MariaDB |
 | Auth | JWT (jsonwebtoken + bcryptjs) |
@@ -116,7 +120,7 @@ Aplikasi terbuka di `http://localhost:3000`
 docker compose up -d
 ```
 
-- Frontend: `http://localhost:3005`
+- Frontend (Nginx): `http://localhost:3005`
 - Backend API: `http://localhost:5006`
 - MySQL: `localhost:3307`
 
@@ -136,6 +140,15 @@ DB_DATABASE=job_portal_db
 DB_PORT=3306
 ```
 
+### Frontend API URL
+
+Di `src/services/api.js`, base URL backend ditentukan secara dinamis:
+
+```
+REACT_APP_API_URL=http://localhost:5005/api   # via .env
+Fallback: https://backend-pasukanyerussolo-production.up.railway.app/api
+```
+
 ---
 
 ## Database Schema
@@ -150,6 +163,7 @@ DB_PORT=3306
 | `profil_pencari_kerja` | Profil pelamar (bio, pendidikan, pengalaman) |
 | `lamaran` | Lamaran pekerjaan dengan status |
 | `favorit` | Lowongan favorit (M:N users ↔ lowongan) |
+| `testimonials` | Testimonial landing page |
 
 ### Relasi
 
@@ -164,11 +178,21 @@ lowongan ──┬── lamaran (id_lowongan)
            └── favorit (id_lowongan)
 ```
 
+### Migrations & Seeders
+
+```
+backend/
+├── migrations/
+│   └── create_testimonials.sql     # Migration table testimonials
+└── seeders/
+    └── seedData.js                 # Data seeder
+```
+
 ---
 
 ## API Endpoints
 
-### Auth & Profile
+### Auth
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
 | POST | `/api/auth/register` | - | Registrasi |
@@ -182,8 +206,9 @@ lowongan ──┬── lamaran (id_lowongan)
 |--------|----------|------|-----------|
 | GET | `/api/jobs` | - | Semua lowongan (dengan data branding) |
 | GET | `/api/jobs/:id` | - | Detail lowongan (dengan branding) |
+| POST | `/api/jobs` | ✓ | Buat lowongan (general) |
 
-### Lowongan (Authenticated)
+### Lowongan (Authenticated / HRD)
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
 | GET | `/api/auth/jobs` | ✓ | Semua lowongan (tanpa branding) |
@@ -198,26 +223,32 @@ lowongan ──┬── lamaran (id_lowongan)
 | GET | `/api/auth/company/profile` | Perusahaan | Ambil profil perusahaan |
 | PUT | `/api/auth/company/profile` | Perusahaan | Update branding (logo, nama, deskripsi, lokasi, bidang, no_telepon) |
 
-### Lamaran
+### Lamaran & Apply
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
-| POST | `/api/auth/apply` | Pelamar | Kirim lamaran + CV |
+| POST | `/api/apply` | Pelamar | Kirim lamaran + CV (.pdf max 2MB) |
+| GET | `/api/apply` | Pelamar | Lamaran user sendiri |
 | GET | `/api/lamaran` | Pelamar | Status lamaran user |
-| GET | `/api/auth/hrd/applications` | Perusahaan | Lamaran masuk |
-| PATCH | `/api/auth/hrd/lamaran/:id` | Perusahaan | Update status lamaran |
+| GET | `/api/lamaran/hrd` | Perusahaan | Lamaran masuk ke perusahaan |
+| PATCH | `/api/lamaran/:id` | Perusahaan | Update status lamaran |
+| POST | `/api/auth/apply` | Pelamar | Kirim lamaran (via auth routes) |
+| GET | `/api/auth/hrd/applications` | Perusahaan | Lamaran masuk (via auth routes) |
+| PATCH | `/api/auth/hrd/lamaran/:id` | Perusahaan | Update status lamaran (via auth routes) |
 
 ### Favorit
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
 | GET | `/api/favorit` | ✓ | Favorit user |
 | POST | `/api/favorit` | ✓ | Tambah favorit |
-| DELETE | `/api/favorit` | ✓ | Hapus favorit |
+| DELETE | `/api/favorit/:id_lowongan` | ✓ | Hapus favorit |
+| GET | `/api/favorit/cek/:id_lowongan` | ✓ | Cek status favorit |
 
 ### Admin
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
 | GET | `/api/admin/stats` | Admin | Statistik dashboard |
 | GET | `/api/admin/users` | Admin | Semua user |
+| GET | `/api/admin/users/:id` | Admin | Detail user |
 | PUT | `/api/admin/users/:id` | Admin | Edit user |
 | DELETE | `/api/admin/users/:id` | Admin | Hapus user |
 | GET | `/api/admin/jobs` | Admin | Semua lowongan (dengan nama perusahaan) |
@@ -228,12 +259,36 @@ lowongan ──┬── lamaran (id_lowongan)
 | GET | `/api/admin/testimonials` | Admin | Semua testimonial |
 | PUT | `/api/admin/testimonials/:id` | Admin | Edit testimonial |
 | DELETE | `/api/admin/testimonials/:id` | Admin | Hapus testimonial |
-| GET | `/api/admin/my-profile` | Admin | Profil admin |
 
 ### Testimonials
 | Method | Endpoint | Auth | Deskripsi |
 |--------|----------|------|-----------|
-| GET | `/api/testimonials` | - | Testimonial landing page |
+| GET | `/api/testimonials` | - | Testimonial landing page (active only) |
+| POST | `/api/testimonials` | ✓ | Tambah testimonial |
+
+---
+
+## Frontend Routes
+
+| Path | Component | Access |
+|---|---|---|
+| `/` | WalkthroughPage (3-step onboarding) | Public |
+| `/home` | HomePage (Hero, JobServices, JobList, Testimonials, CTA) | Public |
+| `/eksplorasi` | EksplorasiPage (JobListContainer full) | Public |
+| `/job/:id` | JobDetailWrapper | Public |
+| `/login` | Login | Public |
+| `/register` | Register | Public |
+| `/hrd/dashboard` | JobPublisher | Perusahaan |
+| `/hrd/branding` | CompanyBrandingForm | Perusahaan |
+| `/favorit` | FavoriteListContainer | Pelamar |
+| `/status-lamaran` | StatusTracker | Pelamar |
+| `/profile` | ProfileContainer | Semua role |
+| `/admin/dashboard` | AdminDashboard | Admin |
+| `/tentang-kami` | InfoPage | Public |
+| `/kebijakan-privasi` | InfoPage | Public |
+| `/syarat-ketentuan` | InfoPage | Public |
+| `/karier` | InfoPage | Public |
+| `/faq` | InfoPage | Public |
 
 ---
 
@@ -242,23 +297,35 @@ lowongan ──┬── lamaran (id_lowongan)
 ```
 job-portal-project/
 ├── backend/
-│   ├── config/            # db.js, test.js
-│   ├── controllers/       # auth, Job, HRD, Admin, etc
-│   ├── middleware/         # auth, authorize, upload, validator
-│   ├── routes/            # auth, jobs, lamaran, admin, etc
+│   ├── config/            # db.js (MySQL pool), test.js
+│   ├── controllers/       # Auth, Job, HRD, Admin, Application, Favorit, Testimonial, Profile
+│   ├── middleware/         # auth (JWT), authorize (role), upload (Multer), validator, errorMiddleware
+│   ├── routes/            # auth, jobs, apply, lamaran, favorit, admin, testimonial
+│   ├── migrations/        # create_testimonials.sql
+│   ├── seeders/           # seedData.js
 │   ├── uploads/           # file uploads (logo, cv, foto)
-│   ├── server.js          # entry point
+│   ├── server.js          # entry point (Express)
 │   ├── package.json
+│   ├── Dockerfile
 │   └── .env
 ├── frontend/
+│   ├── public/
 │   └── src/
-│       ├── components/    # auth, jobs (JobCard, JobDetail), Modal, Navbar, Footer
-│       ├── context/       # ThemeContext
-│       ├── features/      # landing, eksplorasi, hrd, dashboard, lamaran
-│       ├── pages/         # Walkthrough, Info, Home, Login, Register
-│       ├── utils/         # formatRupiah.js (shared Rupiah formatting)
-│       ├── services/      # api.js (axios instance)
-│       └── App.js         # routing & layout
+│       ├── App.js              # Routing, HomePage, EksplorasiPage, AppLayout
+│       ├── main.jsx            # Entry point (React 19 createRoot)
+│       ├── context/            # ThemeContext (dark/light)
+│       ├── services/           # api.js (Axios instance with JWT interceptor)
+│       ├── utils/              # formatRupiah.js
+│       ├── Layout/             # Layout wrapper (Navbar + Container + Footer)
+│       ├── components/         # Navbar, Footer, Container, Modal, auth, jobs, ScrollReveal, PageTransition
+│       ├── features/
+│       │   ├── landing/        # Hero, HowItWorks, JobServices, Testimonials, FAQ, CTA, Walkthrough
+│       │   ├── eksplorasi/     # JobListContainer, FilterBox, ApplyJobForm, FavoriteListContainer
+│       │   ├── hrd/            # JobPublisher, FormLowongan, FormLowonganControlled, ApplicationStatusTracker
+│       │   ├── dashboard/      # CompanyBrandingForm, ProfileContainer, AdminDashboard, AdminStatsView, Sidebar, ThemeToggle
+│       │   ├── applications/   # ApplyJobForm, StatusTracker, FavoriteService
+│       │   └── lamaran/        # ApplyJobForm, FavoriteHandler, FavoriteService (legacy)
+│       └── pages/              # WalkthroughPage, Home, LandingPage, LoginPage, RegisterPage, InfoPage
 ├── docker-compose.yml
 ├── dump-*.sql
 └── README.md

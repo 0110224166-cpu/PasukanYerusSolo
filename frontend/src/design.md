@@ -53,13 +53,12 @@
 ### Page Structure (Landing — `/`)
 ```
 Walkthrough / Onboarding (full viewport, slide by slide)
-  ├── Slide 1: Buat Akun Gratis
-  ├── Slide 2: Cari Lowongan Ideal
-  ├── Slide 3: Lamar Sekali Klik
-  └── Slide 4: Dapatkan Pekerjaan → Tombol "Mulai Sekarang" navigasi ke /beranda
+  ├── Slide 1: Daftar Akun Gratis
+  ├── Slide 2: Temukan Lowongan Ideal
+  └── Slide 3: Kirim Lamaran Cepat → navigasi ke /home
 ```
 
-### Page Structure (Beranda — `/beranda`)
+### Page Structure (Beranda — `/home`)
 ```
 Hero (100vh)
   ↓
@@ -68,8 +67,6 @@ JobServices (6 kategori cards)
 Job Listings (6 lowongan)
   ↓
 Testimonials (carousel)
-  ↓
-FAQ (accordion)
   ↓
 CTA (daftar)
 ```
@@ -145,7 +142,7 @@ CTA (daftar)
 - **Background:** Dark `#080402` / Light `#f5f5f4`
 - **Grid:** `flexWrap`, gap `24px`, tiap card `flex: 1 1 calc(25% - 24px)` dengan `min-width: 220px`, `max-width: 280px`
 - **Card:** `borderRadius: 24px`, padding `36px 24px`, background dark `#120b06` / light `#ffffff`, border `1px solid`. Hover: `translateY(-8px)`, border `#ea580c`, muncul `boxShadow`
-- **Icon:** Emoji `clamp(32px, 5vw, 42px)`, `display: block`
+- **Icon:** Heroicons `clamp(32px, 5vw, 42px)`, color `#ea580c`
 - **Step tag:** `11px` uppercase, weight `700`, `letterSpacing: 1.5px`, background `rgba(234,88,12,0.1)`, padding `4px 12px`, `borderRadius: 20px`
 - **Button:** Sama dengan Hero primary button
 
@@ -176,7 +173,7 @@ CTA (daftar)
 - **Icon (+):** `20px`, color `#ea580c`. Saat open: `rotate(45deg)` menjadi ×, `transition 0.3s ease`
 - **Answer panel:** `maxHeight: 0 → 300px`, `transition 0.4s ease`. Padding `0 24px` → `0 24px 20px`. Text `14px`, line-height `1.7`
 
-### 3.8 FilterBox (Eksplorasi)
+### 3.8 FilterBox
 - **Container:** `borderRadius: 16px`, padding `20px`, background dark `#120b06` / light `#ffffff`
 - **Layout:** 3 kolom flex (mobile: stacked vertikal)
   - **Kata Kunci** → input text, placeholder "Cari posisi atau nama perusahaan..."
@@ -193,7 +190,26 @@ CTA (daftar)
 - **Variant:** `simple` (dibatasi 6, tanpa FilterBox), `full` (dengan FilterBox + info hasil)
 - **Mobile:** layout card vertikal, filter box stacked
 
-### 3.10 CTA
+### 3.10 ApplyJobForm
+- **Container:** `borderRadius: 16px`, padding `20px`, border dashed `#ea580c`
+- **Upload:** Input file `.pdf` max 2MB, dengan validasi client-side
+- **Pesan tambahan:** Textarea opsional untuk HRD
+- **Button:** Gradient oranye, `borderRadius: 10px`, weight `700`
+- **States:** Loading spinner "Mengirim...", success & error alert
+
+### 3.11 ApplicationStatusTracker (HRD)
+- **Layout:** Flex row, gap `12px`, `borderRadius: 14px`
+- **Status badge:** Warna sesuai status (Lolos: hijau, Interview: kuning, Gagal: merah, Review: oranye, Menunggu: default)
+- **Dropdown change:** 5 opsi status (Menunggu → Review → Interview → Lolos/Gagal)
+- **Loading state:** disabled select + teks "Menyimpan..."
+
+### 3.12 Sidebar (Dashboard)
+- **Menu items:** Eksplorasi, Lowongan Favorit, Status Lamaran, Profil Saya, Ganti Password
+- **Active state:** Gradient oranye, text putih
+- **Inactive state:** Transparent, text abu-abu
+- **Footer:** Tombol logout dengan border merah
+
+### 3.13 CTA
 - **Section padding:** `80px 20px`, text center, borderTop
 - **Background glow:** Elemen `radial-gradient(rgba(234,88,12,0.05))` dengan animasi `pulse` (scale 1↔1.1, opacity 0.5↔0.8) durasi 8s
 - **Heading:** `clamp(1.8rem, 5vw, 2.5rem)` weight `800`
@@ -217,11 +233,9 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 
 **Applied di HomePage:**
 - Hero → (default, no ScrollReveal)
-- HowItWorks → `slideLeft`, delay 100ms
 - JobServices → `slideRight`, delay 150ms
 - Job list section → `fadeUp`, delay 100ms (inner elements: `fadeIn` 200ms, `fadeUp` 300ms, `scaleIn` 400ms)
 - Testimonials → `slideLeft`, delay 200ms
-- FAQ → `slideRight`, delay 250ms
 - CTA → `scaleIn`, delay 200ms
 
 ### 4.2 PageTransition (Route Change)
@@ -231,14 +245,14 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 - **Inject:** Keyframes di-inject ke `<head>` via `document.createElement('style')` saat mount (sekali)
 - **Performance:** `willChange: opacity, transform`
 
-### 4.3 Navbar Mobile Dropdown (sebelum dihapus)
-- `fadeUp`: opacity 0→1, translateY(10px)→0, 0.2s ease
-
-### 4.4 CTA Background
+### 4.3 CTA Background
 - `pulse`: scale(1)→(1.1), opacity(0.5)→(0.8), 8s ease-in-out infinite
 
-### 4.5 Footer Gradient Bar
+### 4.4 Footer Gradient Bar
 - `gradientMove`: background-position 0%→100%→0%, 3s ease infinite
+
+### 4.5 Walkthrough Float
+- `float`: translateY(0px)→(-12px)→(0px), 3s ease-in-out infinite
 
 ---
 
@@ -257,13 +271,13 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 
 ## 6. Navigation & Routing
 
-### Library: `react-router-dom` v6
+### Library: `react-router-dom` v7
 
 ### Routes
 | Path | Component | Access |
 |---|---|---|
-| `/` | HomePage (Hero, HowItWorks, JobServices, JobList, Testimonials, FAQ, CTA) | Public |
-| `/beranda` | HomePage (sama dengan `/`) | Public |
+| `/` | WalkthroughPage (3-step onboarding) | Public |
+| `/home` | HomePage (Hero, JobServices, JobList, Testimonials, CTA) | Public |
 | `/eksplorasi` | EksplorasiPage (JobListContainer full) | Public |
 | `/job/:id` | JobDetailWrapper | Public |
 | `/login` | Login | Public |
@@ -274,10 +288,11 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 | `/status-lamaran` | StatusTracker | Pelamar |
 | `/profile` | ProfileContainer | Pelamar |
 | `/admin/dashboard` | AdminDashboard | Admin |
-| `/info/tentang-kami` | InfoPage | Public |
-| `/info/kebijakan-privasi` | InfoPage | Public |
-| `/info/syarat-ketentuan` | InfoPage | Public |
-| `/info/faq` | InfoPage | Public |
+| `/tentang-kami` | InfoPage | Public |
+| `/kebijakan-privasi` | InfoPage | Public |
+| `/syarat-ketentuan` | InfoPage | Public |
+| `/karier` | InfoPage | Public |
+| `/faq` | InfoPage | Public |
 
 ### Scroll Behavior
 - **ScrollToTop component:** Watch `pathname` via `useLocation()`, call `window.scrollTo(0, 0)` on change
@@ -288,11 +303,12 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 ## 7. Coding Conventions
 
 - **No comments** in code
-- **All inline styles** — no CSS modules, styled-components, or external stylesheets
+- **All inline styles** — no CSS modules, styled-components, or external stylesheets (kecuali `index.css` untuk global reset)
 - **No external animation libraries** — IntersectionObserver manual, CSS keyframes
 - **State management:** React Context (ThemeContext), localStorage for auth & theme
 - **isMobile state:** `window.innerWidth < 768`, updated on `resize` event
-- **Icons:** Emoji (👍🏠💼🔑☀️🌙 dll) — no icon library
+- **Icons:** `@heroicons/react/24/outline` — Heroicons v2 outline
+- **API calls:** Axios instance (`services/api.js`) dengan interceptor JWT
 
 ---
 
@@ -300,16 +316,26 @@ Komponen pembungkus yang memicu animasi saat elemen masuk viewport (`threshold: 
 
 ```
 frontend/src/
-├── App.js                          # Route definitions, ScrollToTop, HomePage, EksplorasiPage
+├── App.js                          # Route definitions, HomePage, EksplorasiPage, AppLayout
+├── App.css
+├── index.js / main.jsx             # Entry point (ReactDOM.createRoot)
+├── index.css                       # Global reset & base styles
 ├── context/
 │   └── ThemeContext.js              # Dark/light theme provider
 ├── utils/
 │   └── formatRupiah.js             # Shared Rupiah formatting utility
+├── services/
+│   └── api.js                      # Axios instance with JWT interceptor
+├── Layout/
+│   └── index.js                    # Layout wrapper (Navbar + Container + Footer)
 ├── components/
 │   ├── Navbar/
 │   │   └── Navbar.js               # Pill navbar (fixed, responsive, role-based menu)
 │   ├── Footer/
 │   │   └── Footer.js               # Footer with logo, social media, 4 internal links
+│   ├── Container/
+│   │   ├── index.js                # Container max-width wrapper
+│   │   └── index.module.css        # Container styles (CSS modules)
 │   ├── PageTransition.js           # Route change animation wrapper
 │   ├── ScrollReveal.js             # IntersectionObserver scroll animation wrapper
 │   ├── Modal/
@@ -327,24 +353,39 @@ frontend/src/
 │   │   ├── JobServices.js          # 6 job category cards with photos
 │   │   ├── Testimonials.js         # Testimonial carousel
 │   │   ├── FAQ.js                  # Accordion FAQ
-│   │   └── CTA.js                  # Call to action section
+│   │   ├── CTA.js                  # Call to action section
+│   │   └── Walkthrough.js          # Legacy 4-step walkthrough (not used)
 │   ├── eksplorasi/
 │   │   ├── JobListContainer.js     # Job listing (simple & full variants)
-│   │   └── FavoriteListContainer.js # Saved jobs
+│   │   ├── FilterBox.js            # Search filter component
+│   │   ├── ApplyJobForm.js         # Job application form
+│   │   ├── FavoriteListContainer.js # Saved jobs
+│   │   └── JobListContainer.css    # Job list styles
 │   ├── hrd/
 │   │   ├── JobPublisher.js         # Post job (HRD dashboard)
-│   │   └── FormLowonganControlled.js # Job form with Rupiah input & kategori dropdown
+│   │   ├── FormLowongan.js         # Basic job form (legacy)
+│   │   ├── FormLowonganControlled.js # Job form with Rupiah input & kategori dropdown
+│   │   └── ApplicationStatusTracker.js # HRD application status updater
 │   ├── dashboard/
 │   │   ├── CompanyBrandingForm.js  # Company profile edit (logo, nama, lokasi, bidang, telepon, deskripsi)
 │   │   ├── ProfileContainer.js     # User profile (photo, telepon, keahlian, about)
 │   │   ├── AdminDashboard.js       # Admin panel (filter, sort, responsive tabel/cards)
-│   │   └── AdminStatsView.js       # Admin statistics cards (responsive grid)
+│   │   ├── AdminStatsView.js       # Admin statistics cards (responsive grid)
+│   │   ├── Sidebar.js              # Dashboard sidebar navigation
+│   │   └── ThemeToggle.js          # Theme toggle switch component
 │   ├── applications/
-│   │   └── StatusTracker.js        # Application status
+│   │   ├── ApplyJobForm.jsx        # Job application form (enhanced, with validation)
+│   │   ├── StatusTracker.jsx       # Application status tracking
+│   │   └── FavoriteService.js      # Favorite job API service
 │   └── lamaran/
-│       └── FavoriteService.js      # Favorite job API service
+│       ├── ApplyJobForm.js         # Legacy job application form
+│       ├── FavoriteHandler.js      # Favorite toggle handler
+│       └── FavoriteService.js      # Legacy favorite service
 └── pages/
-    ├── WalkthroughPage.js          # Onboarding walkthrough (3 slides)
-    ├── InfoPage.js                 # Static info pages (Tentang Kami, Privasi, S&K, FAQ)
-    └── ...
+    ├── WalkthroughPage.js          # 3-step onboarding walkthrough
+    ├── Home.jsx                    # Simple home page (alternate)
+    ├── LandingPage.js              # Alternative landing page (Tailwind)
+    ├── LoginPage.jsx               # Login page wrapper
+    ├── RegisterPage.jsx            # Register page wrapper
+    └── InfoPage.js                 # Static info pages (Tentang Kami, Privasi, S&K, Karier, FAQ)
 ```
